@@ -10,7 +10,7 @@ import poly.cafe.ui.PolyCafeJFrame;
  * @author dtoan
  */
 public class PolyCafeSample1 {
-
+    //Lớp chính chạy chương trình
     public static void main(String[] args) {
         PolyCafeJFrame.main(args);
     }
