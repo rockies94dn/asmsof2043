@@ -48,7 +48,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         btnSales = new javax.swing.JButton();
         btnHistory = new javax.swing.JButton();
         btnChangePassword = new javax.swing.JButton();
-        btnExit = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
         lblPhoto = new javax.swing.JLabel();
         pnlManager = new javax.swing.JPanel();
         pnlExtraButtons = new javax.swing.JPanel();
@@ -108,10 +108,10 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
             }
         });
 
-        btnExit.setText("Exit");
-        btnExit.addActionListener(new java.awt.event.ActionListener() {
+        btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExitActionPerformed(evt);
+                btnLogoutActionPerformed(evt);
             }
         });
 
@@ -138,7 +138,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                            .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
                             .addComponent(btnChangePassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(56, 56, 56))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -159,7 +159,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
                 .addGap(24, 24, 24)
                 .addComponent(btnChangePassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnExit)
+                .addComponent(btnLogout)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -282,14 +282,14 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         this.showChangePasswordJDialog(this);
     }//GEN-LAST:event_btnChangePasswordActionPerformed
 
-    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
         if (XDialog.confirm("Do you want to logout?", "Logout confirm")) {
-            String[] args = null;
             this.dispose();
-            PolyCafeSample1.main(args);
+            String[] args = null;
+            PolyCafeJFrame.main(args);
         }
-    }//GEN-LAST:event_btnExitActionPerformed
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnDrinkManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDrinkManagerActionPerformed
         // TODO add your handling code here:
@@ -366,8 +366,8 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
     private javax.swing.JButton btnChangePassword;
     private javax.swing.JButton btnDrinkManager;
     private javax.swing.JButton btnDrinkMenu;
-    private javax.swing.JButton btnExit;
     private javax.swing.JButton btnHistory;
+    private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnRevenue;
     private javax.swing.JButton btnRevenueManager;
     private javax.swing.JButton btnSales;
@@ -387,7 +387,17 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         this.showWelcomeJDialog(this);
         this.showLoginJDialog(this);
         this.removeButtons();
-        XIcon.setIcon(lblPhoto,"/userphotos/" + XAuth.user.getPhoto() + ".png");
+        XIcon.setIcon(lblPhoto, "/userphotos/" + XAuth.user.getPhoto() + ".png");
+        this.setIconImage(XIcon.getIcon("/salesbg.png").getImage());
+        lblFullname.setText(XAuth.user.getFullname());
+        this.removeButtons();
+    }
+
+    public void secondInit() {
+        this.setLocationRelativeTo(null);
+        this.showLoginJDialog(this);
+        this.removeButtons();
+        XIcon.setIcon(lblPhoto, "/userphotos/" + XAuth.user.getPhoto() + ".png");
         this.setIconImage(XIcon.getIcon("/salesbg.png").getImage());
         lblFullname.setText(XAuth.user.getFullname());
         this.removeButtons();

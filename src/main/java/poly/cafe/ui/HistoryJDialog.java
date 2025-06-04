@@ -48,17 +48,22 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sales History");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         tblBills.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Card ID", "Card Number", "Created Time", "Pay Time", "Status"
+                "ID", "Card Number", "Checkin", "Checkout", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -72,6 +77,11 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
                 return canEdit [columnIndex];
             }
         });
+        tblBills.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBillsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblBills);
 
         jLabel1.setText("Start date:");
@@ -79,6 +89,11 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
         jLabel2.setText("End date:");
 
         btnFilter.setText("Filter");
+        btnFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFilterActionPerformed(evt);
+            }
+        });
 
         cboTimeRanges.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Today", "This week", "This month", "This quarter", "This year" }));
         cboTimeRanges.addActionListener(new java.awt.event.ActionListener() {
@@ -131,7 +146,25 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
 
     private void cboTimeRangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTimeRangesActionPerformed
         // TODO add your handling code here:
+        this.selectTimeRange();
     }//GEN-LAST:event_cboTimeRangesActionPerformed
+
+    private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
+        // TODO add your handling code here:
+        this.fillBills();
+    }//GEN-LAST:event_btnFilterActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        this.open();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void tblBillsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBillsMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            this.showBillJDialog();
+        }
+    }//GEN-LAST:event_tblBillsMouseClicked
 
     /**
      * @param args the command line arguments
@@ -191,8 +224,8 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
     @Override
     public void fillBills() {
         String username = XAuth.user.getUsername();
-        Date begin = XDate.parse(txtBegin.getText(), "MM / dd / yyyy");
-        Date end = XDate.parse(txtEnd.getText(), "MM / dd / yyyy");
+        Date begin = XDate.parse(txtBegin.getText(), "MM/dd/yyyy");
+        Date end = XDate.parse(txtEnd.getText(), "MM/dd/yyyy");
 
         bills = billDao.findByUserAndTimeRange(username, begin, end);
         DefaultTableModel model = (DefaultTableModel) tblBills.getModel();
@@ -241,7 +274,5 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
         }
         txtBegin.setText(XDate.format(range.getBegin()));
         txtEnd.setText(XDate.format(range.getEnd()));
-        this.fillBills();
-
     }
 }

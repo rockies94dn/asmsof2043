@@ -16,11 +16,10 @@ import poly.cafe.util.XQuery;
  */
 public class UserDAOImpl implements UserDAO {
 
-
     String findAllSql = "SELECT * FROM Users";
     String findByIdSql = "SELECT * FROM Users WHERE Username = ?";
     String createSql = "INSERT INTO Users VALUES (?, ?, ?, ?, ?, ?)";
-    String updateSql = "UPDATE Users SET Password = ?, Enable = ?, Fullname = ?, Photo = ?, Manager = ? WHERE Username = ?";
+    String updateSql = "UPDATE Users SET Password = ?, Enabled = ?, Fullname = ?, Photo = ?, Manager = ? WHERE Username = ?";
     String deleteById = "DELETE FROM Users WHERE Username = ?";
     String loginSql = "SELECT * FROM Users WHERE Username = ? AND Password = ? AND Enabled = 1";
 
@@ -40,8 +39,15 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void update(User entity) {
-        User user = new User();
-        XJdbc.executeUpdate(updateSql, user);
+        Object[] values = {
+            entity.getPassword(),
+            entity.isEnabled(),
+            entity.getFullname(),
+            entity.getPhoto(),
+            entity.isManager(),
+            entity.getUsername()
+        };
+        XJdbc.executeUpdate(updateSql, values);
     }
 
     @Override

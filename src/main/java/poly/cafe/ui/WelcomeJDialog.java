@@ -141,7 +141,7 @@ public class WelcomeJDialog extends javax.swing.JDialog implements WelcomeContro
             try {
                 for (var i = 0; i <= 100; i++) {
                     progressBar.setValue(i);
-                    Thread.sleep(30);
+                    Thread.sleep(15);
                 }
                 WelcomeJDialog.this.dispose();
             } catch (InterruptedException ex) {

@@ -65,10 +65,25 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
         });
 
         btnSelectNone.setText("Select None");
+        btnSelectNone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectNoneActionPerformed(evt);
+            }
+        });
 
         btnDeleteSelectedItem.setText("Delete Selected Item");
+        btnDeleteSelectedItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteSelectedItemActionPerformed(evt);
+            }
+        });
 
         btnSelectAll.setText("Select All");
+        btnSelectAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectAllActionPerformed(evt);
+            }
+        });
 
         tblCardsList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -91,6 +106,11 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblCardsList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCardsListMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblCardsList);
@@ -142,10 +162,25 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
         });
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnClearText.setText("Clear Text");
+        btnClearText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearTextActionPerformed(evt);
+            }
+        });
 
         btgStatus.add(rdbOperating);
         rdbOperating.setText("Operating");
@@ -240,6 +275,43 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
         // TODO add your handling code here:
         this.open();
     }//GEN-LAST:event_formWindowOpened
+
+    private void tblCardsListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCardsListMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            this.edit();
+        }
+    }//GEN-LAST:event_tblCardsListMouseClicked
+
+    private void btnClearTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearTextActionPerformed
+        // TODO add your handling code here:
+        this.clear();
+    }//GEN-LAST:event_btnClearTextActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        this.delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        this.update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectAllActionPerformed
+        // TODO add your handling code here:
+        this.checkAll();
+    }//GEN-LAST:event_btnSelectAllActionPerformed
+
+    private void btnSelectNoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectNoneActionPerformed
+        // TODO add your handling code here:
+        this.uncheckAll();
+    }//GEN-LAST:event_btnSelectNoneActionPerformed
+
+    private void btnDeleteSelectedItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSelectedItemActionPerformed
+        // TODO add your handling code here:
+        this.deleteCheckedItems();
+    }//GEN-LAST:event_btnDeleteSelectedItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -349,7 +421,10 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     @Override
     public void edit() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Card entity = items.get(tblCardsList.getSelectedRow());
+        this.setForm(entity);
+        this.setEditable(true);
+        tabs.setSelectedIndex(1);
     }
 
     @Override
@@ -364,36 +439,69 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     @Override
     public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (XDialog.confirm("Do you want to update this item?")) {
+            Card entity = this.getForm();
+            dao.update(entity);
+            this.fillToTable();
+        }
     }
 
     @Override
     public void delete() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (XDialog.confirm("Do you want to remove this item?")) {
+            int id = Integer.parseInt(txtCardId.getText());
+            dao.deleteById(id);
+            this.fillToTable();
+        }
     }
 
     @Override
     public void clear() {
+        txtCardId.setText("");
+        rdbOperating.setSelected(false);
+        rdbError.setSelected(false);
+        rdbLose.setSelected(false);
+        this.setEditable(false);
     }
 
     @Override
     public void setEditable(boolean editable) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        txtCardId.setEnabled(!editable);
+        btnCreate.setEnabled(!editable);
+        btnUpdate.setEnabled(editable);
+        btnDelete.setEnabled(editable);
+        btnClearText.setEnabled(editable);
     }
 
     @Override
     public void checkAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       this.setCheckedAll(true);
+    }
+
+    private void setCheckedAll(boolean checked) {
+        for (int i = 0; i < tblCardsList.getRowCount(); i++) {
+            tblCardsList.setValueAt(checked, i, 2);
+        }
     }
 
     @Override
     public void uncheckAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.setCheckedAll(false);
     }
 
     @Override
     public void deleteCheckedItems() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         if (tblCardsList.getSelectedRow() != -1) {
+            if (XDialog.confirm("Do you want to delete selected items?")) {
+                for (int i = 0; i < tblCardsList.getRowCount(); i++) {
+                    if ((Boolean) tblCardsList.getValueAt(i, 2)) {
+                        dao.deleteById(items.get(i).getId());
+                    }
+                }
+                this.fillToTable();
+            }
+        }
+        XDialog.alert("Please select items that you want to delete");
     }
 
     @Override

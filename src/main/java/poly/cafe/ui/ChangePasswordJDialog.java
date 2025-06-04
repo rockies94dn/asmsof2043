@@ -45,6 +45,11 @@ public class ChangePasswordJDialog extends javax.swing.JDialog implements Change
         btnSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 51, 255));
@@ -59,8 +64,18 @@ public class ChangePasswordJDialog extends javax.swing.JDialog implements Change
         jLabel5.setText("Confirm New Password:");
 
         btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
 
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,6 +143,21 @@ public class ChangePasswordJDialog extends javax.swing.JDialog implements Change
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        this.save();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        // TODO add your handling code here:
+        this.close();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        this.open();
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -183,6 +213,7 @@ public class ChangePasswordJDialog extends javax.swing.JDialog implements Change
     @Override
     public void open() {
         this.setLocationRelativeTo(null);
+        System.out.println(XAuth.user.getUsername());
     }
 
     @Override
@@ -191,12 +222,16 @@ public class ChangePasswordJDialog extends javax.swing.JDialog implements Change
         String password = txtPassword.getText();
         String newpass = txtNewpass.getText();
         String confirm = txtConfirm.getText();
-        if (!newpass.equals(confirm)) {
-            XDialog.alert("Wrong confirm password!");
-        } else if (!username.equals(XAuth.user.getUsername())) {
+        if (txtUsername.getText().isBlank() || txtPassword.getText().isBlank() || txtNewpass.getText().isBlank() || txtConfirm.getText().isBlank()) {
+            XDialog.alert("Please input information!");
+            return;
+        }
+        if (!username.equals(XAuth.user.getUsername())) {
             XDialog.alert("Wrong username!");
         } else if (!password.equals(XAuth.user.getPassword())) {
             XDialog.alert("Wrong password!");
+        } else if (!newpass.equals(confirm)) {
+            XDialog.alert("Wrong confirm password!");
         } else {
             XAuth.user.setPassword(newpass);
             dao.update(XAuth.user);
