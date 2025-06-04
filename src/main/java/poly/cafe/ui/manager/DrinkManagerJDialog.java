@@ -211,7 +211,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
                     .addComponent(btnCheckAll)
                     .addComponent(btnUncheckAll)
                     .addComponent(btnDeleteCheckedItems))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         tabs.addTab("Drinks List", jPanel1);
@@ -335,11 +335,11 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
                         .addComponent(btnMoveLast, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(24, 24, 24)
-                                .addComponent(btnSetPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
+                                .addComponent(btnSetPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtPrice)
@@ -400,13 +400,13 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
                             .addComponent(cboCategories, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(rdbNotAvailable)
                             .addComponent(rdbAvailable))
-                        .addGap(18, 18, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSetPhoto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addContainerGap()
+                        .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSetPhoto)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -438,8 +438,8 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 341, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -646,7 +646,8 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
         txtDrinkName.setText(entity.getName());
         txtPrice.setText(String.valueOf(entity.getUnitPrice()));
         lblImage.setToolTipText("/drinkphotos/" + entity.getImage() + ".png"); // ghi tên hình vào ToolTipText
-        XIcon.setIcon(lblImage, new File("/drinkphotos/", entity.getImage()) + ".png"); // hiển thị hình từ file
+//        XIcon.setIcon(lblImage, new File("/drinkphotos/" + entity.getImage()) + ".png"); // hiển thị hình từ file
+        lblImage.setIcon(new ImageIcon(getClass().getResource("/drinkphotos/" + entity.getImage().toString() + ".png")));
         sldDiscount.setValue((int) entity.getDiscount());
         lblDiscount.setText((int) entity.getDiscount() + " %");
         rdbAvailable.setSelected(entity.isAvailable());

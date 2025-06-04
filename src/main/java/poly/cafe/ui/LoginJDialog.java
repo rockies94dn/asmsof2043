@@ -4,7 +4,9 @@
  */
 package poly.cafe.ui;
 
+import java.util.prefs.Preferences;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 import poly.cafe.dao.UserDAO;
 import poly.cafe.dao.impl.UserDAOImpl;
 import poly.cafe.entity.User;
@@ -51,6 +53,9 @@ public class LoginJDialog extends javax.swing.JDialog implements LoginController
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -168,6 +173,11 @@ public class LoginJDialog extends javax.swing.JDialog implements LoginController
         this.exit();
     }//GEN-LAST:event_formWindowClosed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        this.open();
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -218,8 +228,19 @@ public class LoginJDialog extends javax.swing.JDialog implements LoginController
 
     UserDAO dao = new UserDAOImpl();
 
+    private static final Preferences prefs = Preferences.userRoot().node("polyCafe");
+
+    public static void saveTextField(JTextField textField, String key) {
+        prefs.put(key, textField.getText());
+    }
+
+    public static void loadTextField(JTextField textField, String key) {
+        textField.setText(prefs.get(key, ""));
+    }
+
     @Override
     public void open() {
+        loadTextField(txtUsername, "username");
         this.setLocationRelativeTo(null);
     }
 
@@ -236,6 +257,11 @@ public class LoginJDialog extends javax.swing.JDialog implements LoginController
             XDialog.alert("Account Suspended!");
         } else {
             XAuth.user = user; // duy trì user đăng nhập
+            if (chkRememberMe.isSelected()) {
+                saveTextField(txtUsername, "username"); // Lưu username
+            } else {
+                prefs.remove("username");
+            }
             this.dispose();
         }
     }
