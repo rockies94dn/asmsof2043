@@ -819,8 +819,8 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         entity.setId(Long.parseLong(txtId.getText()));
         entity.setUsername(txtUsername.getText());
         entity.setCardId(Integer.parseInt(txtBillId.getText()));
-        entity.setCheckin(XDate.parse(txtCheckin.getText())); //???
-        entity.setCheckout(XDate.parse(txtCheckout.getText()));
+        entity.setCheckin(XDate.parseFull(txtCheckin.getText())); //???
+        entity.setCheckout(XDate.parseFull(txtCheckout.getText()));
         entity.setStatus(getStatusFromForm());
         return entity;
     }
