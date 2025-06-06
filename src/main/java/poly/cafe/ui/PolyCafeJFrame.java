@@ -87,6 +87,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         lblFullname.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         lblFullname.setText("Full Name Display");
 
+        btnSales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Edit_1.png"))); // NOI18N
         btnSales.setText("Sales");
         btnSales.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,6 +95,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
             }
         });
 
+        btnHistory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Notes.png"))); // NOI18N
         btnHistory.setText("History");
         btnHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,6 +103,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
             }
         });
 
+        btnChangePassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/User.png"))); // NOI18N
         btnChangePassword.setText("Change Password");
         btnChangePassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,6 +111,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
             }
         });
 
+        btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Log out.png"))); // NOI18N
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,7 +142,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                            .addComponent(btnLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnChangePassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(56, 56, 56))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -171,7 +175,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         pnlExtraButtons.setOpaque(false);
 
         btnDrinkManager.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        btnDrinkManager.setText("DRINK MENU");
+        btnDrinkManager.setText("DRINKS");
         btnDrinkManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDrinkManagerActionPerformed(evt);
@@ -179,7 +183,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         });
 
         btnCardManager.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        btnCardManager.setText("CARD");
+        btnCardManager.setText("CARDS");
         btnCardManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCardManagerActionPerformed(evt);
@@ -187,7 +191,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         });
 
         btnUserManager.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        btnUserManager.setText("USER");
+        btnUserManager.setText("USERS");
         btnUserManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUserManagerActionPerformed(evt);
@@ -195,7 +199,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         });
 
         btnBillManager.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        btnBillManager.setText("BILL");
+        btnBillManager.setText("BILLS");
         btnBillManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBillManagerActionPerformed(evt);
@@ -203,7 +207,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         });
 
         btnCategoryManager.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        btnCategoryManager.setText("CATEGORY");
+        btnCategoryManager.setText("CATEGORIES");
         btnCategoryManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCategoryManagerActionPerformed(evt);
@@ -223,46 +227,42 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         pnlExtraButtonsLayout.setHorizontalGroup(
             pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlExtraButtonsLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCardManager, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUserManager, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDrinkManager, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 223, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnDrinkManager, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUserManager, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                    .addComponent(btnCardManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
                 .addGroup(pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlExtraButtonsLayout.createSequentialGroup()
-                        .addComponent(btnRevenueManager, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
-                    .addGroup(pnlExtraButtonsLayout.createSequentialGroup()
-                        .addGroup(pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCategoryManager, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBillManager, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                    .addComponent(btnRevenueManager, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCategoryManager, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBillManager, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         pnlExtraButtonsLayout.setVerticalGroup(
             pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlExtraButtonsLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnDrinkManager, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                    .addComponent(btnBillManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addGroup(pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCardManager, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                    .addComponent(btnCategoryManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(70, 70, 70)
                 .addGroup(pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDrinkManager, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBillManager, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCardManager, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCategoryManager, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(pnlExtraButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRevenueManager, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUserManager, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                    .addComponent(btnUserManager, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRevenueManager, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
         );
 
-        pnlManager.add(pnlExtraButtons, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 500, 210));
+        pnlManager.add(pnlExtraButtons, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 500, 360));
 
-        lblCenter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salesbg.png"))); // NOI18N
-        pnlManager.add(lblCenter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 360));
+        lblCenter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/salebg2.jpg"))); // NOI18N
+        pnlManager.add(lblCenter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 410));
 
-        getContentPane().add(pnlManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 550, 360));
+        getContentPane().add(pnlManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 550, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

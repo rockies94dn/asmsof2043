@@ -67,7 +67,8 @@ public class XIcon {
             throw new RuntimeException(ex);
         }
     }
+    
     public static File copyTo(File fromFile) {
-        return copyTo(fromFile, "files");
+        return copyTo(fromFile, "drinkphotos");
     }
 }

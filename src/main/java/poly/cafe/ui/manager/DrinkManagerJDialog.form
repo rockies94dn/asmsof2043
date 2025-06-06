@@ -538,8 +538,11 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnSetPhoto">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Set photo"/>
+                <Property name="text" type="java.lang.String" value="Set Image"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSetPhotoActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -72,6 +72,7 @@ public class LoginJDialog extends javax.swing.JDialog implements LoginController
         jLabel5.setText("Password");
 
         chkRememberMe.setText("Remember me?");
+        chkRememberMe.setToolTipText("Check this to remember username for next time login");
 
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -241,6 +242,9 @@ public class LoginJDialog extends javax.swing.JDialog implements LoginController
     @Override
     public void open() {
         loadTextField(txtUsername, "username");
+        if (!txtUsername.getText().isBlank()) {
+            chkRememberMe.setSelected(true);
+        }
         this.setLocationRelativeTo(null);
     }
 

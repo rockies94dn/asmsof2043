@@ -308,7 +308,12 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
         lblDiscount.setForeground(new java.awt.Color(51, 51, 255));
         lblDiscount.setText("1%");
 
-        btnSetPhoto.setText("Set photo");
+        btnSetPhoto.setText("Set Image");
+        btnSetPhoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetPhotoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -528,6 +533,11 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
         lblDiscount.setText(String.valueOf(disount) + " %");
     }//GEN-LAST:event_sldDiscountStateChanged
 
+    private void btnSetPhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetPhotoActionPerformed
+        // TODO add your handling code here:
+        this.chooseFile();
+    }//GEN-LAST:event_btnSetPhotoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -624,7 +634,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
     public void chooseFile() {
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            File file = XIcon.copyTo(selectedFile, "images");
+            File file = XIcon.copyTo(selectedFile, "drinkphotos");
             lblImage.setToolTipText(file.getName());
             XIcon.setIcon(lblImage, file);
         }
@@ -645,9 +655,9 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
         txtDrinkId.setText(entity.getId());
         txtDrinkName.setText(entity.getName());
         txtPrice.setText(String.valueOf(entity.getUnitPrice()));
-        lblImage.setToolTipText("/drinkphotos/" + entity.getImage() + ".png"); // ghi tên hình vào ToolTipText
-//        XIcon.setIcon(lblImage, new File("/drinkphotos/" + entity.getImage()) + ".png"); // hiển thị hình từ file
-        lblImage.setIcon(new ImageIcon(getClass().getResource("/drinkphotos/" + entity.getImage().toString() + ".png")));
+        lblImage.setToolTipText(entity.getImage()); // ghi tên hình vào ToolTipText
+        XIcon.setIcon(lblImage, new File("drinkphotos",entity.getImage())); // hiển thị hình từ file
+//        lblImage.setIcon(new ImageIcon(getClass().getResource("/drinkphotos/" + entity.getImage().toString() + ".png")));
         sldDiscount.setValue((int) entity.getDiscount());
         lblDiscount.setText((int) entity.getDiscount() + " %");
         rdbAvailable.setSelected(entity.isAvailable());

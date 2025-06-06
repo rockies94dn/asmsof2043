@@ -154,6 +154,7 @@
     <Component class="javax.swing.JCheckBox" name="chkRememberMe">
       <Properties>
         <Property name="text" type="java.lang.String" value="Remember me?"/>
+        <Property name="toolTipText" type="java.lang.String" value="Check this to remember username for next time login"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnLogin">
