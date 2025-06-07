@@ -81,11 +81,17 @@ public class BillJDialog extends javax.swing.JDialog implements BillController {
             }
         });
 
-        jLabel1.setText("Card ID:");
+        jLabel1.setText("Bill ID:");
 
         jLabel2.setText("Card number:");
 
         jLabel3.setText("Order time:");
+
+        txtId.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtId.setForeground(new java.awt.Color(51, 51, 255));
+
+        txtCardNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtCardNumber.setForeground(new java.awt.Color(255, 51, 51));
 
         jLabel4.setText("Username:");
 
@@ -327,6 +333,8 @@ public class BillJDialog extends javax.swing.JDialog implements BillController {
     public void open() {
         this.setLocationRelativeTo(null);
         this.setForm(bill);
+        txtId.setEditable(false);
+        txtCardNumber.setEditable(false);
         this.fillBillDetails();
     }
 
@@ -465,7 +473,7 @@ public class BillJDialog extends javax.swing.JDialog implements BillController {
         if (billDetails.isEmpty()) {
             billDao.deleteById(bill.getId());
             this.dispose();
-        } else if (XDialog.confirm("Bạn muốn hủy phiếu bán hàng?")) {
+        } else if (XDialog.confirm("Do you want to cancel this bill?")) {
             bill.setStatus(Bill.Status.Canceled.ordinal());
             billDao.update(bill);
             this.setForm(bill);

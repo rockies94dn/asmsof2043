@@ -20,6 +20,7 @@ import poly.cafe.entity.BillDetail;
 import poly.cafe.util.TimeRange;
 import poly.cafe.util.XDate;
 import poly.cafe.util.XDialog;
+import poly.cafe.util.XStr;
 
 /**
  *
@@ -39,6 +40,8 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     public BillManagerJDialog(JFrame frame, boolean modal) {
         super(frame, modal);
         initComponents();
+        txtId.setEditable(false);
+        txtCardNumber.setEditable(false);
     }
 
     /**
@@ -70,7 +73,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         jLabel1 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtBillId = new javax.swing.JTextField();
+        txtCardNumber = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtCheckin = new javax.swing.JTextField();
@@ -95,6 +98,14 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         btnMoveLast = new javax.swing.JButton();
 
         setTitle("Bill Manager");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel9.setText("Begin:");
 
@@ -253,7 +264,12 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
 
         jLabel1.setText("ID:");
 
-        jLabel2.setText("Bill ID:");
+        txtId.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtId.setForeground(new java.awt.Color(51, 51, 255));
+
+        jLabel2.setText("Card Number:");
+
+        txtCardNumber.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         jLabel3.setText("Checkin:");
 
@@ -320,12 +336,12 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                         .addGap(6, 6, 6)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(302, 302, 302)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtBillId, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtCardNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -389,7 +405,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBillId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCardNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -472,6 +488,10 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
+        if (isTextFieldBlank()) {
+            XDialog.alert("Please input date format correctly!");
+            return;
+        }
         this.fillToTable();
     }//GEN-LAST:event_btnFilterActionPerformed
 
@@ -512,7 +532,6 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         }
         txtBegin.setText(XDate.format(range.getBegin(), "MM/dd/yyyy"));
         txtEnd.setText(XDate.format(range.getEnd(), "MM/dd/yyyy"));
-        this.fillToTable();
     }//GEN-LAST:event_cboTimeRangesActionPerformed
 
     private void tblBillsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBillsMouseClicked
@@ -523,6 +542,16 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             this.fillBillDetails();
         }
     }//GEN-LAST:event_tblBillsMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        this.open();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        this.close();
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -600,7 +629,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     private javax.swing.JTable tblBillDetails;
     private javax.swing.JTable tblBills;
     private javax.swing.JTextField txtBegin;
-    private javax.swing.JTextField txtBillId;
+    private javax.swing.JTextField txtCardNumber;
     private javax.swing.JTextField txtCheckin;
     private javax.swing.JTextField txtCheckout;
     private javax.swing.JTextField txtEnd;
@@ -608,10 +637,21 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
+    public boolean isTextFieldBlank() {
+        if (XStr.isBlank(txtBegin.getText()) || XStr.isBlank(txtEnd.getText())) {
+            return true;
+        }
+        if (!XStr.isDateFormat(txtBegin.getText()) || !XStr.isDateFormat(txtEnd.getText())) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void open() {
         this.setLocationRelativeTo(null);
         this.selectTimeRange();
+        this.fillToTable();
         this.clear();
     }
 
@@ -798,13 +838,12 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         }
         txtBegin.setText(XDate.format(range.getBegin(), "MM/dd/yyyy"));
         txtEnd.setText(XDate.format(range.getEnd(), "MM/dd/yyyy"));
-        this.fillToTable();
     }
 
     @Override
     public void setForm(Bill entity) {
         txtId.setText(String.valueOf(entity.getId()));
-        txtBillId.setText(String.valueOf(entity.getCardId()));
+        txtCardNumber.setText(String.valueOf(entity.getCardId()));
         txtCheckin.setText(entity.getCheckin() == null ? "" : entity.getCheckin().toString());
         txtCheckout.setText(entity.getCheckout() == null ? "" : entity.getCheckout().toString());
         txtUsername.setText(entity.getUsername());
@@ -818,7 +857,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         Bill entity = new Bill();
         entity.setId(Long.parseLong(txtId.getText()));
         entity.setUsername(txtUsername.getText());
-        entity.setCardId(Integer.parseInt(txtBillId.getText()));
+        entity.setCardId(Integer.parseInt(txtCardNumber.getText()));
         entity.setCheckin(XDate.parseFull(txtCheckin.getText())); //???
         entity.setCheckout(XDate.parseFull(txtCheckout.getText()));
         entity.setStatus(getStatusFromForm());
@@ -827,12 +866,11 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
 
     @Override
     public void setBill(Bill bill) {
-    
+
     }
 
     @Override
     public void close() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override

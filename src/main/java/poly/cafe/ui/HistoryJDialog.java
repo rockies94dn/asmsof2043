@@ -15,6 +15,8 @@ import poly.cafe.entity.Bill;
 import poly.cafe.util.TimeRange;
 import poly.cafe.util.XAuth;
 import poly.cafe.util.XDate;
+import poly.cafe.util.XDialog;
+import poly.cafe.util.XStr;
 
 /**
  *
@@ -151,6 +153,10 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
+        if (isTextFieldBlank()) {
+            XDialog.alert("Please input date format correctly!");
+            return;
+        }
         this.fillBills();
     }//GEN-LAST:event_btnFilterActionPerformed
 
@@ -215,6 +221,16 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
     BillDAO billDao = new BillDAOImpl();
     List<Bill> bills = List.of();
 
+    public boolean isTextFieldBlank() {
+        if (XStr.isBlank(txtBegin.getText()) || XStr.isBlank(txtEnd.getText())) {
+            return true;
+        }
+        if (!XStr.isDateFormat(txtBegin.getText()) || !XStr.isDateFormat(txtEnd.getText())) {
+            return true;
+        }
+        return false;
+    }
+    
     @Override
     public void open() {
         this.setLocationRelativeTo(null);

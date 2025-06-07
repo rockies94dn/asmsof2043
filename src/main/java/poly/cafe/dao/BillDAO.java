@@ -22,5 +22,7 @@ public interface BillDAO extends CrudDAO<Bill, Long> {
     
     public Bill findServicingByCardId(Integer cardId);
     
+    public boolean hasActiveBill(long cardId);
+    
     List<Bill> findByUserAndTimeRange(String username, Date begin, Date end);
 }

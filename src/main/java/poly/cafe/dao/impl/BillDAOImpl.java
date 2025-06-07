@@ -4,8 +4,17 @@
  */
 package poly.cafe.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import poly.cafe.dao.BillDAO;
 import poly.cafe.entity.Bill;
 import poly.cafe.util.XAuth;
@@ -50,17 +59,47 @@ public class BillDAOImpl implements BillDAO {
         return XQuery.getBeanList(Bill.class, findByTimeRangeSql, begin, end);
     }
 
+//    @Override
+//    public Bill create(Bill entity) {
+//        Object[] values = {
+//            entity.getId(),
+//            entity.getUsername(),
+//            entity.getCardId(),
+//            entity.getCheckin(),
+//            entity.getCheckout(),
+//            entity.getStatus()
+//        };
+//        XJdbc.executeUpdate(createSql, values);
+//        return entity;
+//    }
     @Override
     public Bill create(Bill entity) {
-        Object[] values = {
-//            entity.getId(),
-            entity.getUsername(),
-            entity.getCardId(),
-            entity.getCheckin(),
-            entity.getCheckout(),
-            entity.getStatus()
-        };
-        XJdbc.executeUpdate(createSql, values);
+        String sql = "INSERT INTO Bills (Username, CardId, Checkin, Checkout, Status) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            Connection con = XJdbc.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, entity.getUsername());
+            ps.setInt(2, entity.getCardId());
+            ps.setTimestamp(3, new Timestamp(entity.getCheckin().getTime()));
+            if (entity.getCheckout() != null) {
+                ps.setTimestamp(4, new Timestamp(entity.getCheckout().getTime()));
+            } else {
+                ps.setNull(4, Types.TIMESTAMP);
+            }
+            ps.setInt(5, entity.getStatus());
+
+            ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    entity.setId(rs.getLong(1)); // Gán lại ID được sinh tự động
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return entity;
     }
 
@@ -105,6 +144,19 @@ public class BillDAOImpl implements BillDAO {
             bill = this.create(newBill); // insert
         }
         return bill;
+    }
+
+    public boolean hasActiveBill(long cardId) {
+        String sql = "SELECT COUNT(*) FROM Bills WHERE CardId = ? AND Status = 0";
+        try (
+                ResultSet rs = XJdbc.executeQuery(sql, cardId)) {
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

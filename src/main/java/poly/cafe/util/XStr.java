@@ -31,6 +31,11 @@ public class XStr {
         String key = "XXXXXXXX" + Integer.toHexString(Math.abs(hashCode)).toUpperCase();
         return key.substring(key.length() - 8);
     }
+    
+    public static boolean isDateFormat(String text) {
+        String datePattern = "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/([0-9]{4})$";
+        return text.matches(datePattern);
+    }
 
     public static void main(String[] args) {
         String encodedText = XStr.encodeB64("Nguyễn Nghiệm");

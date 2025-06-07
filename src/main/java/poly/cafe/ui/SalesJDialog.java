@@ -6,11 +6,13 @@ package poly.cafe.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.border.Border;
 import poly.cafe.dao.BillDAO;
 import poly.cafe.dao.CardDAO;
 import poly.cafe.dao.impl.BillDAOImpl;
@@ -129,14 +131,34 @@ public class SalesJDialog extends javax.swing.JDialog implements SalesController
 
     }
 
+//    private void loadCards() {
+//        // tải và hiển thị các thẻ lên cửa sổ bán hàng
+//        CardDAO dao = new CardDAOImpl();
+//        List<Card> cards = dao.findAll();
+//        pnlCards.removeAll();
+//        cards.forEach(card -> pnlCards.add(this.createButton(card)));
+//        for (Card card : cards) {
+//            System.out.println(card.toString());
+//        }
+//        pnlCards.revalidate();
+//        pnlCards.repaint();
+//    }
     private void loadCards() {
-        // tải và hiển thị các thẻ lên cửa sổ bán hàng
-        CardDAO dao = new CardDAOImpl();
-        List<Card> cards = dao.findAll();
+
+        CardDAO cardDao = new CardDAOImpl();
+        BillDAO billDao = new BillDAOImpl();
+
+        List<Card> cards = cardDao.findAll();
         pnlCards.removeAll();
-        cards.forEach(card -> pnlCards.add(this.createButton(card)));
+
         for (Card card : cards) {
-            System.out.println(card.toString());
+            boolean isInUse = billDao.hasActiveBill(card.getId());
+            JButton btn = createButton(card);
+            // Cập nhật giao diện theo trạng thái
+            if (isInUse) {
+                btn.setBackground(Color.ORANGE); // ví dụ: thẻ đang sử dụng
+            }
+            pnlCards.add(btn);
         }
         pnlCards.revalidate();
         pnlCards.repaint();
