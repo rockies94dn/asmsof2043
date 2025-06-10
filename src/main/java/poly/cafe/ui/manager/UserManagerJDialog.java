@@ -4,13 +4,16 @@
  */
 package poly.cafe.ui.manager;
 
+import java.io.File;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import poly.cafe.dao.UserDAO;
 import poly.cafe.dao.impl.UserDAOImpl;
 import poly.cafe.entity.User;
 import poly.cafe.util.XDialog;
+import poly.cafe.util.XIcon;
 
 /**
  *
@@ -36,9 +39,9 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
 
         tabs = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnCheckAll = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnDeleteSeletedItem = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblUser = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
@@ -63,11 +66,17 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
         jLabel7 = new javax.swing.JLabel();
         rdbActive = new javax.swing.JRadioButton();
         rdbInactive = new javax.swing.JRadioButton();
+        btnSetPhoto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("User Account Managerment");
 
-        jButton1.setText("Select All");
+        btnCheckAll.setText("Select All");
+        btnCheckAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckAllActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Select None");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -76,7 +85,12 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             }
         });
 
-        jButton3.setText("Delete Selected Item");
+        btnDeleteSeletedItem.setText("Delete Selected Item");
+        btnDeleteSeletedItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteSeletedItemActionPerformed(evt);
+            }
+        });
 
         tblUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -89,9 +103,21 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUserMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblUser);
@@ -102,11 +128,11 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnCheckAll)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(btnDeleteSeletedItem)
                 .addGap(31, 31, 31))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -123,9 +149,9 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnCheckAll)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnDeleteSeletedItem))
                 .addGap(14, 14, 14))
         );
 
@@ -182,6 +208,13 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             }
         });
 
+        btnSetPhoto.setText("Set Photo");
+        btnSetPhoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetPhotoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -200,7 +233,11 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
                         .addComponent(btnClearText)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(btnSetPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(28, 28, 28)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -230,9 +267,9 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
@@ -257,9 +294,14 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
                             .addComponent(rdbManager)
                             .addComponent(rdbSales)
                             .addComponent(rdbActive)
-                            .addComponent(rdbInactive)))
-                    .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                            .addComponent(rdbInactive))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSetPhoto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,6 +337,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        this.uncheckAll();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void rdbActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbActiveActionPerformed
@@ -314,6 +357,28 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
         // TODO add your handling code here:
         this.update();
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnCheckAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckAllActionPerformed
+        // TODO add your handling code here:
+        this.checkAll();
+    }//GEN-LAST:event_btnCheckAllActionPerformed
+
+    private void btnDeleteSeletedItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSeletedItemActionPerformed
+        // TODO add your handling code here:
+        this.deleteCheckedItems();
+    }//GEN-LAST:event_btnDeleteSeletedItemActionPerformed
+
+    private void btnSetPhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetPhotoActionPerformed
+        // TODO add your handling code here:
+        this.chooseFile();
+    }//GEN-LAST:event_btnSetPhotoActionPerformed
+
+    private void tblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUserMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            this.edit();
+        }
+    }//GEN-LAST:event_tblUserMouseClicked
 
     /**
      * @param args the command line arguments
@@ -351,13 +416,14 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCheckAll;
     private javax.swing.JButton btnClearText;
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeleteSeletedItem;
+    private javax.swing.JButton btnSetPhoto;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -385,6 +451,12 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
     UserDAO dao = new UserDAOImpl();
     List<User> items = List.of();
 
+    public void setCheckAll(boolean checked) {
+        for (int i = 0; i < tblUser.getRowCount(); i++) {
+            tblUser.setValueAt(checked, i, 6);
+        }
+    }
+
     @Override
     public void open() {
         this.fillToTable();
@@ -392,7 +464,16 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
 
     @Override
     public void setForm(User entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        txtUsername.setText(entity.getUsername());
+        txtPassword.setText(entity.getPassword());
+        txtFullName.setText(entity.getFullname());
+        lblPhoto.setToolTipText(entity.getPhoto()); // ghi tên hình vào ToolTipText
+        XIcon.setIcon(lblPhoto, new File("src/main/resources/userphotos", entity.getPhoto())); // hiển thị hình từ file
+        System.out.println("Hinh ok!");
+        rdbActive.setSelected(entity.isEnabled());
+        rdbInactive.setSelected(!entity.isEnabled());
+        rdbManager.setSelected(entity.isManager());
+        rdbSales.setSelected(!entity.isManager());
     }
 
     @Override
@@ -426,13 +507,15 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
 
     @Override
     public void edit() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        User entity = items.get(tblUser.getSelectedRow());
+        this.setForm(entity);
+        this.setEditable(true);
+        tabs.setSelectedIndex(1);
     }
 
     @Override
     public void create() {
         User entity = this.getForm();
-        
         if (dao.create(entity) != null) {
             XDialog.confirm("Created succesfully!");
             this.fillToTable();
@@ -442,37 +525,70 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
 
     @Override
     public void update() {
-        
+        if (XDialog.confirm("Do you want to update this user?")) {
+            User entity = this.getForm();
+            dao.update(entity);
+            this.fillToTable();
+        }
     }
 
     @Override
     public void delete() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (XDialog.confirm("Do you want to remove this user?")) {
+            String id = txtUsername.getText();
+            dao.deleteById(id);
+            this.fillToTable();
+        }
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.setForm(new User());
+        this.setEditable(false);
     }
 
     @Override
     public void setEditable(boolean editable) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        btnUpdate.setEnabled(editable);
+        btnDelete.setEnabled(editable);
+        btnCreate.setEnabled(!editable);
     }
 
     @Override
     public void checkAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.setCheckAll(true);
     }
 
     @Override
     public void uncheckAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.setCheckAll(false);
     }
 
     @Override
     public void deleteCheckedItems() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (tblUser.getSelectedRow() != -1) {
+            if (XDialog.confirm("Do you want to delete selected user?")) {
+                for (int i = 0; i < tblUser.getRowCount(); i++) {
+                    if ((Boolean) tblUser.getValueAt(i, 5)) {
+                        dao.deleteById(items.get(i).getUsername());
+                    }
+                }
+                this.fillToTable();
+            }
+        }
+        XDialog.alert("Please select user that you want to delete");
+    }
+
+    JFileChooser fileChooser = new JFileChooser();
+
+    public void chooseFile() {
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            File file = XIcon.copyTo(selectedFile, String.valueOf("src/main/resources/userphotos"));
+            lblPhoto.setToolTipText(file.getName());
+            XIcon.setIcon(lblPhoto, file);
+        }
+
     }
 
     @Override

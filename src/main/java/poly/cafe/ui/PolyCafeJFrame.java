@@ -405,21 +405,21 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         this.showWelcomeJDialog(this);
         this.showLoginJDialog(this);
         this.removeButtons();
-        XIcon.setIcon(lblPhoto, "/userphotos/" + XAuth.user.getPhoto() + ".png");
+        XIcon.setIcon(lblPhoto, "/userphotos/" + XAuth.user.getPhoto());
         this.setIconImage(XIcon.getIcon("/salebg2.jpg").getImage());
         lblFullname.setText(XAuth.user.getFullname());
         this.removeButtons();
     }
 
-    public void secondInit() {
-        this.setLocationRelativeTo(null);
-        this.showLoginJDialog(this);
-        this.removeButtons();
-        XIcon.setIcon(lblPhoto, "/userphotos/" + XAuth.user.getPhoto() + ".png");
-        this.setIconImage(XIcon.getIcon("/salebg2.jpg").getImage());
-        lblFullname.setText(XAuth.user.getFullname());
-        this.removeButtons();
-    }
+//    public void secondInit() {
+//        this.setLocationRelativeTo(null);
+//        this.showLoginJDialog(this);
+//        this.removeButtons();
+//        XIcon.setIcon(lblPhoto, "/userphotos/" + XAuth.user.getPhoto());
+//        this.setIconImage(XIcon.getIcon("/salebg2.jpg").getImage());
+//        lblFullname.setText(XAuth.user.getFullname());
+//        this.removeButtons();
+//    }
 
     public void removeButtons() {
         if (!XAuth.user.isManager()) {
