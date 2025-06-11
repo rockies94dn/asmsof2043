@@ -21,7 +21,7 @@ public class User {
     private boolean enabled;
     private String fullname;
     @Builder.Default
-    private String photo = "female.png";
+    private String photo = "na.png";
     private boolean manager;
 
 }

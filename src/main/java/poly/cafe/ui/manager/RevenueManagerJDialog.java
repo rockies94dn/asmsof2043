@@ -13,6 +13,8 @@ import poly.cafe.dao.impl.RevenueDAOImpl;
 import poly.cafe.entity.Revenue;
 import poly.cafe.util.TimeRange;
 import poly.cafe.util.XDate;
+import poly.cafe.util.XDialog;
+import poly.cafe.util.XValidInput;
 
 /**
  *
@@ -225,7 +227,11 @@ public class RevenueManagerJDialog extends javax.swing.JDialog implements Revenu
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
-        this.fillRevenue();
+        if (isValidInput()) {
+            this.fillRevenue();
+        } else {
+            XDialog.alert("Invalid date format. Please try again.");
+        }
     }//GEN-LAST:event_btnFilterActionPerformed
 
     /**
@@ -262,6 +268,10 @@ public class RevenueManagerJDialog extends javax.swing.JDialog implements Revenu
                 new RevenueManagerJDialog(new JFrame(), true).setVisible(true);
             }
         });
+    }
+
+    public boolean isValidInput() {
+        return XValidInput.isDateFormat(txtBegin.getText()) && XValidInput.isDateFormat(txtEnd.getText());
     }
 
     @Override

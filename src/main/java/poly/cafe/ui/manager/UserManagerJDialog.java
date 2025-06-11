@@ -14,6 +14,7 @@ import poly.cafe.dao.impl.UserDAOImpl;
 import poly.cafe.entity.User;
 import poly.cafe.util.XDialog;
 import poly.cafe.util.XIcon;
+import poly.cafe.util.XValidInput;
 
 /**
  *
@@ -37,10 +38,12 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGroupRole = new javax.swing.ButtonGroup();
+        btnGroupStatus = new javax.swing.ButtonGroup();
         tabs = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         btnCheckAll = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnUncheckAll = new javax.swing.JButton();
         btnDeleteSeletedItem = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblUser = new javax.swing.JTable();
@@ -78,10 +81,10 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             }
         });
 
-        jButton2.setText("Select None");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnUncheckAll.setText("Select None");
+        btnUncheckAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnUncheckAllActionPerformed(evt);
             }
         });
 
@@ -130,7 +133,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCheckAll)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnUncheckAll)
                 .addGap(18, 18, 18)
                 .addComponent(btnDeleteSeletedItem)
                 .addGap(31, 31, 31))
@@ -150,15 +153,17 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCheckAll)
-                    .addComponent(jButton2)
+                    .addComponent(btnUncheckAll)
                     .addComponent(btnDeleteSeletedItem))
                 .addGap(14, 14, 14))
         );
 
         tabs.addTab("Users List", jPanel1);
 
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
         btnDelete.setText("Delete");
 
+        btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Add_1.png"))); // NOI18N
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,6 +171,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             }
         });
 
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Edit_1.png"))); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,9 +179,10 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             }
         });
 
-        btnClearText.setText("Clear Text");
+        btnClearText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Refresh_1.png"))); // NOI18N
+        btnClearText.setText("Clear");
 
-        lblPhoto.setToolTipText("updatesoon");
+        lblPhoto.setToolTipText("na.png");
         lblPhoto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setText("Username:");
@@ -188,12 +195,15 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
 
         jLabel6.setText("Role:");
 
+        btnGroupRole.add(rdbManager);
         rdbManager.setText("Manager");
 
+        btnGroupRole.add(rdbSales);
         rdbSales.setText("Sales");
 
         jLabel7.setText("Status:");
 
+        btnGroupStatus.add(rdbActive);
         rdbActive.setText("Active");
         rdbActive.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,6 +211,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             }
         });
 
+        btnGroupStatus.add(rdbInactive);
         rdbInactive.setText("Inactive");
         rdbInactive.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,13 +235,13 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnCreate)
+                        .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnUpdate)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDelete)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnClearText)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnClearText, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,7 +306,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
                             .addComponent(rdbSales)
                             .addComponent(rdbActive)
                             .addComponent(rdbInactive))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,11 +316,11 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnDelete)
                         .addComponent(btnCreate)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnClearText))
+                        .addComponent(btnClearText)))
                 .addGap(11, 11, 11))
         );
 
@@ -335,10 +346,10 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnUncheckAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUncheckAllActionPerformed
         // TODO add your handling code here:
         this.uncheckAll();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnUncheckAllActionPerformed
 
     private void rdbActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbActiveActionPerformed
         // TODO add your handling code here:
@@ -350,12 +361,20 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        this.create();
+        if (isValidInput()) {
+            this.create();
+        } else {
+            XDialog.alert("Please enter complete and correctly formatted information.");
+        }
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        this.update();
+        if (isValidInput()) {
+            this.update();
+        } else {
+            XDialog.alert("Please enter complete and correctly formatted information.");
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnCheckAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckAllActionPerformed
@@ -421,9 +440,11 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDeleteSeletedItem;
+    private javax.swing.ButtonGroup btnGroupRole;
+    private javax.swing.ButtonGroup btnGroupStatus;
     private javax.swing.JButton btnSetPhoto;
+    private javax.swing.JButton btnUncheckAll;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -457,6 +478,15 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
         }
     }
 
+    public boolean isValidInput() {
+        return !(XValidInput.isBlank(txtUsername.getText())
+                || XValidInput.isBlank(txtPassword.getText())
+                || XValidInput.isBlank(txtFullName.getText())
+                || XValidInput.isBlank(txtConfirmPassword.getText())
+                || (!rdbActive.isSelected() && !rdbInactive.isSelected())
+                || (!rdbManager.isSelected() && !rdbSales.isSelected()));
+    }
+
     @Override
     public void open() {
         this.fillToTable();
@@ -469,7 +499,6 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
         txtFullName.setText(entity.getFullname());
         lblPhoto.setToolTipText(entity.getPhoto()); // ghi tên hình vào ToolTipText
         XIcon.setIcon(lblPhoto, new File("src/main/resources/userphotos", entity.getPhoto())); // hiển thị hình từ file
-        System.out.println("Hinh ok!");
         rdbActive.setSelected(entity.isEnabled());
         rdbInactive.setSelected(!entity.isEnabled());
         rdbManager.setSelected(entity.isManager());

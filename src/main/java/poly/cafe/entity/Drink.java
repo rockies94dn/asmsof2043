@@ -19,7 +19,7 @@ public class Drink {
     private String id;
     private String name;
     @Builder.Default
-    private String image = "C01";
+    private String image = "na.png";
     private double unitPrice;
     private double discount;
     private boolean available;

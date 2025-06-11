@@ -475,7 +475,7 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     @Override
     public void checkAll() {
-       this.setCheckedAll(true);
+        this.setCheckedAll(true);
     }
 
     private void setCheckedAll(boolean checked) {
@@ -491,7 +491,7 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     @Override
     public void deleteCheckedItems() {
-         if (tblCardsList.getSelectedRow() != -1) {
+        if (tblCardsList.getSelectedRow() != -1) {
             if (XDialog.confirm("Do you want to delete selected items?")) {
                 for (int i = 0; i < tblCardsList.getRowCount(); i++) {
                     if ((Boolean) tblCardsList.getValueAt(i, 2)) {
