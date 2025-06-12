@@ -21,6 +21,7 @@ import poly.cafe.util.TimeRange;
 import poly.cafe.util.XDate;
 import poly.cafe.util.XDialog;
 import poly.cafe.util.XStr;
+import poly.cafe.util.XValidInput;
 
 /**
  *
@@ -155,6 +156,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         });
         jScrollPane2.setViewportView(tblBills);
 
+        btnCheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Accept_1.png"))); // NOI18N
         btnCheckAll.setText("Select All");
         btnCheckAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +164,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             }
         });
 
+        btnUncheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Unaccept.png"))); // NOI18N
         btnUncheckAll.setText("Select None");
         btnUncheckAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,6 +172,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             }
         });
 
+        btnDeleteCheckedItems.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
         btnDeleteCheckedItems.setText("Delete Selected Item");
         btnDeleteCheckedItems.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,15 +203,15 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                         .addComponent(btnFilter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cboTimeRanges, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 87, Short.MAX_VALUE))
+                        .addGap(0, 166, Short.MAX_VALUE))
                     .addComponent(jSeparator4)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnCheckAll)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnUncheckAll)
-                        .addGap(28, 28, 28)
-                        .addComponent(btnDeleteCheckedItems)))
+                        .addComponent(btnCheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUncheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDeleteCheckedItems, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -232,7 +236,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                     .addComponent(btnCheckAll)
                     .addComponent(btnUncheckAll)
                     .addComponent(btnDeleteCheckedItems))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         tabs.addTab("Bills List", jPanel1);
@@ -288,8 +292,10 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         rdoGroupStatus.add(rdoCanceled);
         rdoCanceled.setText("Canceled");
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("Bill Details:");
 
+        btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Add_1.png"))); // NOI18N
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -297,6 +303,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             }
         });
 
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Edit_1.png"))); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -304,6 +311,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             }
         });
 
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -311,6 +319,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             }
         });
 
+        btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Refresh_1.png"))); // NOI18N
         btnClear.setText("Clear Text");
         btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -318,20 +327,20 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             }
         });
 
-        btnMoveFirst.setText("|<");
+        btnMoveFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/firstpage.png"))); // NOI18N
 
-        btnMovePrevious.setText("<<");
+        btnMovePrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leftpage.png"))); // NOI18N
 
-        btnMoveNext.setText(">>");
+        btnMoveNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rightpage.png"))); // NOI18N
 
-        btnMoveLast.setText(">|");
+        btnMoveLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastpage.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,27 +382,28 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                         .addGap(6, 6, 6)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(btnCreate)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnUpdate)
-                            .addGap(12, 12, 12)
-                            .addComponent(btnDelete)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnClear)
-                            .addGap(125, 125, 125)
-                            .addComponent(btnMoveFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnMovePrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnMoveNext, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnMoveLast, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 749, Short.MAX_VALUE))))
-                .addGap(0, 5, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(90, 90, 90)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 749, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(95, 95, 95)
+                        .addComponent(btnMoveFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMovePrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnMoveNext, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMoveLast, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -446,7 +456,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                     .addComponent(btnMovePrevious)
                     .addComponent(btnMoveNext)
                     .addComponent(btnMoveLast))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabs.addTab("Form", jPanel2);
@@ -488,21 +498,29 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
-        if (isTextFieldBlank()) {
-            XDialog.alert("Please input date format correctly!");
-            return;
+        if (isValidDateFormat()) {
+            this.fillToTable();
+        } else {
+            XDialog.alert("Invalid date format. Please try again.");
         }
-        this.fillToTable();
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        this.create();
+        if (isValidInput()) {
+            this.create();
+        } else {
+            XDialog.alert("Please enter complete and correctly formatted information.");
+        }
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        this.update();
+        if (isValidInput()) {
+            this.update();
+        } else {
+            XDialog.alert("Please enter complete and correctly formatted information.");
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -637,14 +655,16 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
-    public boolean isTextFieldBlank() {
-        if (XStr.isBlank(txtBegin.getText()) || XStr.isBlank(txtEnd.getText())) {
-            return true;
-        }
-        if (!XStr.isDateFormat(txtBegin.getText()) || !XStr.isDateFormat(txtEnd.getText())) {
-            return true;
-        }
-        return false;
+    public boolean isValidDateFormat() {
+        return XValidInput.isDateFormat(txtBegin.getText()) && XValidInput.isDateFormat(txtEnd.getText());
+    }
+
+    public boolean isValidInput() {
+        return !(XValidInput.isNumber(txtId.getText())
+                || XValidInput.isNumber(txtCardNumber.getText())
+                || XValidInput.isBlank(txtCheckin.getText())
+                || XValidInput.isBlank(txtUsername.getText())
+                || !(rdoServicing.isSelected() || rdoCompleted.isSelected() || rdoServicing.isSelected()));
     }
 
     @Override

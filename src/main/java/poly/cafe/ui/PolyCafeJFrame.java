@@ -4,7 +4,6 @@
  */
 package poly.cafe.ui;
 
-import poly.cafe.PolyCafeSample1;
 import poly.cafe.util.XAuth;
 import poly.cafe.util.XDialog;
 import poly.cafe.util.XIcon;
@@ -114,14 +113,14 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         });
 
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Log out.png"))); // NOI18N
-        btnLogout.setText("Logout");
+        btnLogout.setText("Exit");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLogoutActionPerformed(evt);
             }
         });
 
-        lblPhoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/userphotos/female.png"))); // NOI18N
+        lblPhoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/userphotos/na.png"))); // NOI18N
         lblPhoto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -300,10 +299,8 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
-        if (XDialog.confirm("Do you want to logout?", "Logout confirm")) {
-            this.dispose();
-            String[] args = null;
-            PolyCafeJFrame.main(args);
+        if (XDialog.confirm("Do you want to exit?", "Exit confirm")) {
+            System.exit(0);
         }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
@@ -406,7 +403,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
         this.showLoginJDialog(this);
         this.removeButtons();
         XIcon.setIcon(lblPhoto, "/userphotos/" + XAuth.user.getPhoto());
-        this.setIconImage(XIcon.getIcon("/salebg2.jpg").getImage());
+        this.setIconImage(XIcon.getIcon("salebg2.jpg").getImage());
         lblFullname.setText(XAuth.user.getFullname());
         this.removeButtons();
     }
@@ -420,7 +417,6 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
 //        lblFullname.setText(XAuth.user.getFullname());
 //        this.removeButtons();
 //    }
-
     public void removeButtons() {
         if (!XAuth.user.isManager()) {
             pnlManager.remove(pnlExtraButtons);

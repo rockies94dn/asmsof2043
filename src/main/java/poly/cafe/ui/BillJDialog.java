@@ -5,6 +5,7 @@
 package poly.cafe.ui;
 
 import java.awt.Frame;
+import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JFrame;
@@ -75,6 +76,9 @@ public class BillJDialog extends javax.swing.JDialog implements BillController {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -268,6 +272,17 @@ public class BillJDialog extends javax.swing.JDialog implements BillController {
         this.dispose();
     }//GEN-LAST:event_formWindowClosed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        if (bill != null && bill.getStatus() == 0) {
+            BillDetailDAO detailDao = new BillDetailDAOImpl();
+            List<BillDetail> details = detailDao.findByBillId(bill.getId());
+            if (details.isEmpty()) {
+                new BillDAOImpl().deleteById(bill.getId()); // Xoá bill rỗng
+            }
+        }
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -443,6 +458,20 @@ public class BillJDialog extends javax.swing.JDialog implements BillController {
         }
         this.fillBillDetails();
     }
+//
+//    @Override
+//    protected void processWindowEvent(WindowEvent e) {
+//        super.processWindowEvent(e);
+//        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
+//            if (bill != null && bill.getStatus() == 0) {
+//                BillDetailDAO detailDao = new BillDetailDAOImpl();
+//                List<BillDetail> details = detailDao.findByBillId(bill.getId());
+//                if (details.isEmpty()) {
+//                    new BillDAOImpl().deleteById(bill.getId()); // Xoá bill rỗng
+//                }
+//            }
+//        }
+//    }
 
     @Override
     public void updateQuantity() {

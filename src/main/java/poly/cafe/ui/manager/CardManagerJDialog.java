@@ -11,6 +11,7 @@ import poly.cafe.dao.CardDAO;
 import poly.cafe.dao.impl.CardDAOImpl;
 import poly.cafe.entity.Card;
 import poly.cafe.util.XDialog;
+import poly.cafe.util.XValidInput;
 
 /**
  *
@@ -64,6 +65,7 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
             }
         });
 
+        btnSelectNone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Unaccept.png"))); // NOI18N
         btnSelectNone.setText("Select None");
         btnSelectNone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,6 +73,7 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
             }
         });
 
+        btnDeleteSelectedItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
         btnDeleteSelectedItem.setText("Delete Selected Item");
         btnDeleteSelectedItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +81,7 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
             }
         });
 
+        btnSelectAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Accept_1.png"))); // NOI18N
         btnSelectAll.setText("Select All");
         btnSelectAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,10 +125,10 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btnSelectNone, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addComponent(btnSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSelectNone, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
                 .addComponent(btnDeleteSelectedItem)
                 .addGap(17, 17, 17))
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -154,6 +158,7 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
         jLabel2.setText("Status:");
 
+        btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Add_1.png"))); // NOI18N
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,6 +166,7 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
             }
         });
 
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Edit_1.png"))); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,6 +174,7 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
             }
         });
 
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,6 +182,7 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
             }
         });
 
+        btnClearText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Refresh_1.png"))); // NOI18N
         btnClearText.setText("Clear Text");
         btnClearText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,11 +213,11 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
                         .addGap(28, 28, 28)
                         .addComponent(rdbLose))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnCreate)
+                        .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnUpdate)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnDelete)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnClearText))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -268,7 +276,9 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        this.create();
+        if (isValidInput()) {
+            this.create();
+        }
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -295,7 +305,9 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        this.update();
+         if (isValidInput()) {
+            this.update();
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectAllActionPerformed
@@ -374,6 +386,10 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     CardDAO dao = new CardDAOImpl();
     List<Card> items = List.of();
+
+    public boolean isValidInput() {
+        return !(XValidInput.isNumber(txtCardId.getText()) || (!rdbOperating.isSelected() && !rdbLose.isSelected() && !rdbError.isSelected()));
+    }
 
     @Override
     public void open() {

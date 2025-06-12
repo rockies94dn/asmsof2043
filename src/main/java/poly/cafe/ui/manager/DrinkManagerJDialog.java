@@ -629,7 +629,8 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
     public boolean isValidInput() {
         return !(XValidInput.isBlank(txtDrinkId.getText())
                 || XValidInput.isBlank(txtDrinkName.getText())
-                || !XValidInput.isNumber(txtPrice.getText()));
+                || !XValidInput.isNumber(txtPrice.getText())
+                || (!rdbAvailable.isSelected() && !rdbNotAvailable.isSelected()));
     }
 
     @Override

@@ -6,13 +6,11 @@ package poly.cafe.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.border.Border;
 import poly.cafe.dao.BillDAO;
 import poly.cafe.dao.CardDAO;
 import poly.cafe.dao.impl.BillDAOImpl;
@@ -42,7 +40,6 @@ public class SalesJDialog extends javax.swing.JDialog implements SalesController
     private void initComponents() {
 
         pnlCards = new javax.swing.JPanel();
-        btnRefreshCardList = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sales Card");
@@ -55,13 +52,6 @@ public class SalesJDialog extends javax.swing.JDialog implements SalesController
         pnlCards.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlCards.setLayout(new java.awt.GridLayout(0, 6, 5, 5));
 
-        btnRefreshCardList.setText("Refresh Cards List");
-        btnRefreshCardList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshCardListActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -70,16 +60,11 @@ public class SalesJDialog extends javax.swing.JDialog implements SalesController
                 .addContainerGap()
                 .addComponent(pnlCards, javax.swing.GroupLayout.DEFAULT_SIZE, 797, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(318, 318, 318)
-                .addComponent(btnRefreshCardList, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(btnRefreshCardList)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlCards, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -91,11 +76,6 @@ public class SalesJDialog extends javax.swing.JDialog implements SalesController
         // TODO add your handling code here:
         this.open();
     }//GEN-LAST:event_formWindowOpened
-
-    private void btnRefreshCardListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshCardListActionPerformed
-        // TODO add your handling code here:
-        this.loadCards();
-    }//GEN-LAST:event_btnRefreshCardListActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,7 +125,8 @@ public class SalesJDialog extends javax.swing.JDialog implements SalesController
         BillJDialog dialog = new BillJDialog((Frame) this.getOwner(), true);
         dialog.setBill(bill); // truyền bill vào cửa sổ để hiển thị
         dialog.open();
-        dialog.setVisible(true);
+        dialog.setVisible(true); //code sẽ pause tại đây, sau khi đóng Bill sẽ chạy tiếp dòng dưới
+        this.loadCards();
     }
 
 //    private void loadCards() {
@@ -196,7 +177,6 @@ public class SalesJDialog extends javax.swing.JDialog implements SalesController
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnRefreshCardList;
     private javax.swing.JPanel pnlCards;
     // End of variables declaration//GEN-END:variables
 }

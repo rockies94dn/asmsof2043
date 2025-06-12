@@ -11,6 +11,7 @@ import poly.cafe.dao.CategoryDAO;
 import poly.cafe.dao.impl.CategoryDAOImpl;
 import poly.cafe.entity.Category;
 import poly.cafe.util.XDialog;
+import poly.cafe.util.XValidInput;
 
 /**
  *
@@ -79,6 +80,7 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
             }
         });
 
+        btnCheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Accept_1.png"))); // NOI18N
         btnCheckAll.setText("Select All");
         btnCheckAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,6 +88,7 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
             }
         });
 
+        btnUncheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Unaccept.png"))); // NOI18N
         btnUncheckAll.setText("Select None");
         btnUncheckAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,7 +96,8 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
             }
         });
 
-        btnDeleteCheckedItems.setText("Delete Item");
+        btnDeleteCheckedItems.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
+        btnDeleteCheckedItems.setText("Delete Selected Item");
         btnDeleteCheckedItems.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteCheckedItemsActionPerformed(evt);
@@ -137,15 +141,15 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
                     .addComponent(jSeparator1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnCheckAll)
-                        .addGap(58, 58, 58)
-                        .addComponent(btnUncheckAll)
-                        .addGap(43, 43, 43)
-                        .addComponent(btnDeleteCheckedItems, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnCheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUncheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDeleteCheckedItems, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -160,7 +164,7 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
                     .addComponent(btnCheckAll)
                     .addComponent(btnUncheckAll)
                     .addComponent(btnDeleteCheckedItems))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabs.addTab("Categories List", jPanel1);
@@ -169,6 +173,7 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
 
         jLabel3.setText("Category Name:");
 
+        btnCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Add_1.png"))); // NOI18N
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,6 +181,7 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
             }
         });
 
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Edit_1.png"))); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,6 +189,7 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
             }
         });
 
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,35 +197,36 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
             }
         });
 
-        btnClear.setText("Clear Form");
+        btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Refresh_1.png"))); // NOI18N
+        btnClear.setText("Clear");
         btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClearActionPerformed(evt);
             }
         });
 
-        btnMoveNext.setText(">>");
+        btnMoveNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/rightpage.png"))); // NOI18N
         btnMoveNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMoveNextActionPerformed(evt);
             }
         });
 
-        btnMoveLast.setText(">|");
+        btnMoveLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lastpage.png"))); // NOI18N
         btnMoveLast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMoveLastActionPerformed(evt);
             }
         });
 
-        btnMovePrevious.setText("<<");
+        btnMovePrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/leftpage.png"))); // NOI18N
         btnMovePrevious.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMovePreviousActionPerformed(evt);
             }
         });
 
-        btnMoveFirst.setText("|<");
+        btnMoveFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/firstpage.png"))); // NOI18N
         btnMoveFirst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMoveFirstActionPerformed(evt);
@@ -247,16 +255,16 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
                         .addGap(18, 18, 18)
                         .addComponent(btnDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnClear)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                        .addComponent(btnMoveFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMoveFirst, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnMovePrevious, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnMoveNext, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnMoveLast, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12))
+                        .addComponent(btnMoveLast, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -336,12 +344,20 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        this.create();
+        if (isValidInput()) {
+            this.create();
+        } else {
+            XDialog.alert("Please enter complete and correctly formatted information.");
+        }
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        this.update();
+        if (isValidInput()) {
+            this.update();
+        } else {
+            XDialog.alert("Please enter complete and correctly formatted information.");
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -444,6 +460,10 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
 
     CategoryDAO dao = (CategoryDAO) new CategoryDAOImpl();
     List<Category> items = List.of();
+
+    public boolean isValidInput() {
+        return !(XValidInput.isDateFormat(txtId.getText()) && XValidInput.isDateFormat(txtName.getText()));
+    }
 
     @Override
     public void open() {
@@ -562,6 +582,7 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
                 }
             }
             this.fillToTable();
+            return;
         }
     }
 

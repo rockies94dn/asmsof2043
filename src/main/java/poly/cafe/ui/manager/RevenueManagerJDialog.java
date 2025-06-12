@@ -227,7 +227,7 @@ public class RevenueManagerJDialog extends javax.swing.JDialog implements Revenu
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
-        if (isValidInput()) {
+        if (isValidDateFormat()) {
             this.fillRevenue();
         } else {
             XDialog.alert("Invalid date format. Please try again.");
@@ -270,7 +270,7 @@ public class RevenueManagerJDialog extends javax.swing.JDialog implements Revenu
         });
     }
 
-    public boolean isValidInput() {
+    public boolean isValidDateFormat() {
         return XValidInput.isDateFormat(txtBegin.getText()) && XValidInput.isDateFormat(txtEnd.getText());
     }
 
