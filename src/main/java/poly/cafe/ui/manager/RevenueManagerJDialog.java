@@ -112,7 +112,7 @@ public class RevenueManagerJDialog extends javax.swing.JDialog implements Revenu
 
             },
             new String [] {
-                "User", "Revenue", "Bill Number", "First Bill", "Last Bill"
+                "User", "Revenue", "Number Of Bills", "First Bill", "Last Bill"
             }
         ) {
             Class[] types = new Class [] {
