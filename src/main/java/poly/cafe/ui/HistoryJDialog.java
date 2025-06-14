@@ -17,6 +17,7 @@ import poly.cafe.util.XAuth;
 import poly.cafe.util.XDate;
 import poly.cafe.util.XDialog;
 import poly.cafe.util.XStr;
+import poly.cafe.util.XValidInput;
 
 /**
  *
@@ -90,6 +91,7 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
 
         jLabel2.setText("End date:");
 
+        btnFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Notes.png"))); // NOI18N
         btnFilter.setText("Filter");
         btnFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,11 +123,11 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnFilter)
                 .addGap(18, 18, 18)
+                .addComponent(btnFilter)
+                .addGap(12, 12, 12)
                 .addComponent(cboTimeRanges, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +140,7 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
                     .addComponent(txtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFilter)
                     .addComponent(cboTimeRanges, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -153,11 +155,12 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
-        if (isTextFieldBlank()) {
+        if (isDateFormat()) {
+            this.fillBills();
+        } else {
             XDialog.alert("Please input date format correctly!");
-            return;
         }
-        this.fillBills();
+
     }//GEN-LAST:event_btnFilterActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -221,16 +224,10 @@ public class HistoryJDialog extends javax.swing.JDialog implements HistoryContro
     BillDAO billDao = new BillDAOImpl();
     List<Bill> bills = List.of();
 
-    public boolean isTextFieldBlank() {
-        if (XStr.isBlank(txtBegin.getText()) || XStr.isBlank(txtEnd.getText())) {
-            return true;
-        }
-        if (!XStr.isDateFormat(txtBegin.getText()) || !XStr.isDateFormat(txtEnd.getText())) {
-            return true;
-        }
-        return false;
+    public boolean isDateFormat() {
+        return XValidInput.isDateFormat(txtBegin.getText()) && XValidInput.isDateFormat(txtEnd.getText());
     }
-    
+
     @Override
     public void open() {
         this.setLocationRelativeTo(null);

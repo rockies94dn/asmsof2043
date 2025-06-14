@@ -176,6 +176,7 @@ public final class PolyCafeJFrame extends javax.swing.JFrame implements PolyCafe
 
         btnDrinkManager.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         btnDrinkManager.setText("DRINKS");
+        btnDrinkManager.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnDrinkManager.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDrinkManagerActionPerformed(evt);

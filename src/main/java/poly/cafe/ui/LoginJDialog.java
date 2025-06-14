@@ -74,6 +74,7 @@ public class LoginJDialog extends javax.swing.JDialog implements LoginController
         chkRememberMe.setText("Remember me?");
         chkRememberMe.setToolTipText("Check this to remember username for next time login");
 
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Tick.png"))); // NOI18N
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,6 +82,7 @@ public class LoginJDialog extends javax.swing.JDialog implements LoginController
             }
         });
 
+        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Exit.png"))); // NOI18N
         btnExit.setText("Exit");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,8 +121,8 @@ public class LoginJDialog extends javax.swing.JDialog implements LoginController
                                             .addComponent(chkRememberMe, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                                         .addGap(11, 11, 11)))))
                         .addGap(22, 22, 22))))
         );
