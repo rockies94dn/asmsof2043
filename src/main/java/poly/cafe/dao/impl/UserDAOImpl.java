@@ -22,7 +22,7 @@ public class UserDAOImpl implements UserDAO {
     String updateSql = "UPDATE Users SET Password = ?, Enabled = ?, Fullname = ?, Photo = ?, Manager = ? WHERE Username = ?";
     String deleteById = "DELETE FROM Users WHERE Username = ?";
     String loginSql = "SELECT * FROM Users WHERE Username = ? AND Password = ? AND Enabled = 1";
-
+    
     @Override
     public User create(User entity) {
         Object[] values = {

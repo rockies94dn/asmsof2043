@@ -94,6 +94,7 @@ poly\cafe\ui\manager\DrinkManagerJDialog$12.class
 poly\cafe\ui\manager\UserManagerJDialog.class
 poly\cafe\ui\HistoryController.class
 poly\cafe\ui\PolyCafeController.class
+poly\cafe\ui\manager\UserManagerJDialog$12.class
 poly\cafe\dao\impl\CardDAOImpl.class
 poly\cafe\ui\manager\CardManagerJDialog$8.class
 poly\cafe\ui\WelcomeController.class

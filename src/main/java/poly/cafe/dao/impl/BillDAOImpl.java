@@ -35,7 +35,27 @@ public class BillDAOImpl implements BillDAO {
     String findByIdSql = "SELECT * FROM Bills WHERE Id = ?";
     String findByCardIdSql = "SELECT * FROM Bills WHERE CardId = ?";
     String findByTimeRangeSql = "SELECT * FROM Bills WHERE Checkin BETWEEN ? AND ? ORDER BY Checkin DESC";
-    String findServicingByCardId = "SELECT * FROM Bill WHERE CardId = ?";
+    String findServicingByCardId = "SELECT * FROM Bills WHERE CardId = ?";
+    String findAllUsingCardSql = "SELECT * FROM Bills WHERE Status = 0";
+
+    @Override
+    public int getNextBillId() {
+        String sql = "SELECT MAX(Id) FROM Bills";
+        int nextId = 1;
+        try (
+                Connection con = XJdbc.openConnection(); // hoặc dùng lớp kết nối của bạn
+                 PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery();) {
+            if (rs.next()) {
+                int currentMax = rs.getInt(1);
+                if (!rs.wasNull()) {
+                    nextId = currentMax + 1;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return nextId;
+    }
 
     @Override
     public List<Bill> findByUserAndTimeRange(String username, Date begin, Date end) {
@@ -124,6 +144,10 @@ public class BillDAOImpl implements BillDAO {
     @Override
     public List<Bill> findAll() {
         return XQuery.getBeanList(Bill.class, findAllSql);
+    }
+    
+     public List<Bill> findAllUsingCard() {
+        return XQuery.getBeanList(Bill.class, findAllUsingCardSql);
     }
 
     @Override

@@ -5,6 +5,7 @@
 package poly.cafe.ui.manager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -74,6 +75,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("User Account Managerment");
 
+        btnCheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Accept_1.png"))); // NOI18N
         btnCheckAll.setText("Select All");
         btnCheckAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,6 +83,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             }
         });
 
+        btnUncheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Unaccept.png"))); // NOI18N
         btnUncheckAll.setText("Select None");
         btnUncheckAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,6 +91,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             }
         });
 
+        btnDeleteSeletedItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
         btnDeleteSeletedItem.setText("Delete Selected Item");
         btnDeleteSeletedItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,11 +135,11 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCheckAll)
-                .addGap(18, 18, 18)
-                .addComponent(btnUncheckAll)
-                .addGap(18, 18, 18)
-                .addComponent(btnDeleteSeletedItem)
+                .addComponent(btnCheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnUncheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDeleteSeletedItem, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -147,7 +151,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -181,6 +185,11 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
 
         btnClearText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Refresh_1.png"))); // NOI18N
         btnClearText.setText("Clear");
+        btnClearText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearTextActionPerformed(evt);
+            }
+        });
 
         lblPhoto.setToolTipText("na.png");
         lblPhoto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -363,6 +372,8 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
         // TODO add your handling code here:
         if (isValidInput()) {
             this.create();
+        } else if (isDuplicateUsername()) {
+            XDialog.alert("Username already exists.");
         } else {
             XDialog.alert("Please enter complete and correctly formatted information.");
         }
@@ -398,6 +409,11 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
             this.edit();
         }
     }//GEN-LAST:event_tblUserMouseClicked
+
+    private void btnClearTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearTextActionPerformed
+        // TODO add your handling code here:
+        this.clear();
+    }//GEN-LAST:event_btnClearTextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -469,8 +485,18 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
+    ArrayList<String> usernamesList = new ArrayList();
     UserDAO dao = new UserDAOImpl();
     List<User> items = List.of();
+
+    public boolean isDuplicateUsername() {
+        for (String username : usernamesList) {
+            if (txtUsername.getText().trim().equalsIgnoreCase(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void setCheckAll(boolean checked) {
         for (int i = 0; i < tblUser.getRowCount(); i++) {
@@ -529,8 +555,10 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
                 item.getFullname(),
                 item.getPhoto(),
                 item.isManager(),
-                item.isEnabled(),};
+                item.isEnabled(),
+                false};
             model.addRow(rowData);
+            usernamesList.add(item.getUsername()); //thêm usernames vào arraylist để lấy danh sách cho việc dò trùng username
         });
     }
 
@@ -578,6 +606,7 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
 
     @Override
     public void setEditable(boolean editable) {
+        txtUsername.setEditable(!editable);
         btnUpdate.setEnabled(editable);
         btnDelete.setEnabled(editable);
         btnCreate.setEnabled(!editable);
@@ -595,17 +624,28 @@ public class UserManagerJDialog extends javax.swing.JDialog implements UserContr
 
     @Override
     public void deleteCheckedItems() {
+        boolean isSelected = false;
+        for (int i = 0; i < tblUser.getRowCount(); i++) {
+            Boolean value = (Boolean) tblUser.getValueAt(i, 6);
+            if (value != null && value) {
+                isSelected = true;
+                break;
+            }
+        }
+        if (!isSelected) {
+            XDialog.alert("Please select users that you want to delete");
+            return;
+        }
         if (tblUser.getSelectedRow() != -1) {
             if (XDialog.confirm("Do you want to delete selected user?")) {
                 for (int i = 0; i < tblUser.getRowCount(); i++) {
-                    if ((Boolean) tblUser.getValueAt(i, 5)) {
+                    if ((Boolean) tblUser.getValueAt(i, 6)) {
                         dao.deleteById(items.get(i).getUsername());
                     }
                 }
                 this.fillToTable();
             }
         }
-        XDialog.alert("Please select user that you want to delete");
     }
 
     JFileChooser fileChooser = new JFileChooser();

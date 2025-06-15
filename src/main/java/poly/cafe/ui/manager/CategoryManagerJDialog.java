@@ -344,6 +344,14 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
+        if (isDuplicateCategoryId()) {
+            XDialog.alert("This Category ID already exists.");
+            return;
+        }
+        if (isDuplicateCategoryName()) {
+            XDialog.alert("This Category name already exists.");
+            return;
+        }
         if (isValidInput()) {
             this.create();
         } else {
@@ -461,6 +469,26 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
     CategoryDAO dao = (CategoryDAO) new CategoryDAOImpl();
     List<Category> items = List.of();
 
+    public boolean isDuplicateCategoryId() {
+        List<Category> categoriesList = dao.findAll();
+        for (Category category : categoriesList) {
+            if (txtId.getText().trim().equalsIgnoreCase(category.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isDuplicateCategoryName() {
+        List<Category> categoriesList = dao.findAll();
+        for (Category category : categoriesList) {
+            if (txtName.getText().trim().equalsIgnoreCase(category.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isValidInput() {
         return !(XValidInput.isDateFormat(txtId.getText()) && XValidInput.isDateFormat(txtName.getText()));
     }
@@ -575,6 +603,18 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
 
     @Override
     public void deleteCheckedItems() {
+        boolean isSelected = false;
+        for (int i = 0; i < tblCategories.getRowCount(); i++) {
+            Boolean value = (Boolean) tblCategories.getValueAt(i, 2);
+            if (value != null && value) {
+                isSelected = true;
+                break;
+            }
+        }
+        if (!isSelected) {
+            XDialog.alert("Please select items that you want to delete");
+            return;
+        }
         if (XDialog.confirm("Do you want to delete selected items?")) {
             for (int i = 0; i < tblCategories.getRowCount(); i++) {
                 if ((Boolean) tblCategories.getValueAt(i, 2)) {
@@ -582,7 +622,6 @@ public class CategoryManagerJDialog extends javax.swing.JDialog implements Categ
                 }
             }
             this.fillToTable();
-            return;
         }
     }
 

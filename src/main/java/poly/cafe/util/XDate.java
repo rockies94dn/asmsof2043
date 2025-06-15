@@ -44,6 +44,10 @@ public class XDate {
         return format(dateTime, PATTERN_SHORT);
     }
 
+    public static String formatFull(Date dateTime) {
+        return format(dateTime, PATTERN_FULL);
+    }
+
     public static void main(String[] args) {
         Date date = XDate.parse("Jan 21, 2024", "MMM dd, yyyy");
         String text = XDate.format(date, "dd-MMM-yyyy");

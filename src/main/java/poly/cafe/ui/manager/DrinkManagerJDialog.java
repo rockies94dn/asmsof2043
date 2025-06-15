@@ -5,6 +5,7 @@
 package poly.cafe.ui.manager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import poly.cafe.entity.Drink;
 import javax.swing.*;
@@ -24,10 +25,6 @@ import poly.cafe.util.XValidInput;
  * @author dtoan
  */
 public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkController {
-
-    DrinkDAO dao = new DrinkDAOImpl();
-    List<Drink> items = List.of(); // đồ uống
-    List<Category> categories = List.of();
 
     /**
      * Creates new form DrinkManagerJDialog
@@ -155,6 +152,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
         });
         jScrollPane2.setViewportView(tblDrinks);
 
+        btnCheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Accept_1.png"))); // NOI18N
         btnCheckAll.setText("Select All");
         btnCheckAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +160,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
             }
         });
 
+        btnUncheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Unaccept.png"))); // NOI18N
         btnUncheckAll.setText("Select None");
         btnUncheckAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,6 +168,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
             }
         });
 
+        btnDeleteCheckedItems.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
         btnDeleteCheckedItems.setText("Delete Selected Item");
         btnDeleteCheckedItems.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,11 +190,11 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnCheckAll)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnUncheckAll)
+                .addComponent(btnCheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnDeleteCheckedItems)
+                .addComponent(btnUncheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnDeleteCheckedItems, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
         jPanel1Layout.setVerticalGroup(
@@ -202,7 +202,7 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -482,6 +482,14 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
+        if (isDuplicateDrinkId()) {
+            XDialog.alert("This drink ID already exists.");
+            return;
+        }
+        if (isDuplicateDrinkName()) {
+            XDialog.alert("This drink name already exists.");
+            return;
+        }
         if (isValidInput()) {
             this.create();
         } else {
@@ -626,6 +634,30 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
     private javax.swing.JTextField txtPrice;
     // End of variables declaration//GEN-END:variables
 
+    DrinkDAO dao = new DrinkDAOImpl();
+    List<Drink> items = List.of(); // đồ uống
+    List<Category> categories = List.of();
+
+    public boolean isDuplicateDrinkId() {
+        List<Drink> drinksList = dao.findAll();
+        for (Drink drink : drinksList) {
+            if (txtDrinkId.getText().trim().equalsIgnoreCase(drink.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isDuplicateDrinkName() {
+        List<Drink> drinksList = dao.findAll();
+        for (Drink drink : drinksList) {
+            if (txtDrinkName.getText().trim().equalsIgnoreCase(drink.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isValidInput() {
         return !(XValidInput.isBlank(txtDrinkId.getText())
                 || XValidInput.isBlank(txtDrinkName.getText())
@@ -709,10 +741,10 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
                 item.getName(),
                 item.getUnitPrice(),
                 item.getDiscount(),
-                item.isAvailable()});
+                item.isAvailable(),
+                false});
         });
         this.clear();
-
     }
 
     @Override
@@ -792,17 +824,29 @@ public class DrinkManagerJDialog extends javax.swing.JDialog implements DrinkCon
 
     @Override
     public void deleteCheckedItems() {
+        boolean isSelected = false;
+        for (int i = 0; i < tblDrinks.getRowCount(); i++) {
+            Boolean value = (Boolean) tblDrinks.getValueAt(i, 5);
+            if (value != null && value) {
+                isSelected = true;
+                break;
+            }
+        }
+        if (!isSelected) {
+            XDialog.alert("Please select items that you want to delete");
+            return;
+        }
+
         if (tblDrinks.getSelectedRow() != -1) {
             if (XDialog.confirm("Do you want to delete selected items?")) {
                 for (int i = 0; i < tblDrinks.getRowCount(); i++) {
-                    if ((Boolean) tblDrinks.getValueAt(i, 5)) {
+                    if ((Boolean) tblDrinks.getValueAt(i, 5) == true) {
                         dao.deleteById(items.get(i).getId());
                     }
                 }
                 this.fillToTable();
             }
         }
-        XDialog.alert("Please select items that you want to delete");
     }
 
     @Override

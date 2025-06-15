@@ -6,6 +6,7 @@ package poly.cafe.dao.impl;
 
 import java.util.List;
 import poly.cafe.dao.CardDAO;
+import poly.cafe.entity.Bill;
 import poly.cafe.entity.Card;
 import poly.cafe.util.XJdbc;
 import poly.cafe.util.XQuery;
@@ -21,7 +22,13 @@ public class CardDAOImpl implements CardDAO {
     String deleteSql = "DELETE FROM Cards WHERE Id = ?";
     String findAllSql = "SELECT * FROM Cards";
     String findByIdSql = "SELECT * FROM Cards WHERE Id = ?";
+
+    public boolean hasHistory(int cardId) {
+        String sql = "SELECT COUNT(*) FROM Bills WHERE CardId = ? AND Checkout IS NOT NULL AND Status != 0";
+        return !XQuery.getBeanList(Bill.class, sql, cardId).isEmpty();
+    }
     
+
     @Override
     public Card create(Card entity) {
         Object[] values = {

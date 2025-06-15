@@ -66,11 +66,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnCheckAll" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnUncheckAll" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnDeleteSeletedItem" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnCheckAll" min="-2" pref="121" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnUncheckAll" min="-2" pref="131" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnDeleteSeletedItem" min="-2" pref="175" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -86,7 +86,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="jScrollPane1" pref="282" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="274" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -103,6 +103,9 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="btnCheckAll">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Accept_1.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Select All"/>
               </Properties>
               <Events>
@@ -111,6 +114,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnUncheckAll">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Unaccept.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Select None"/>
               </Properties>
               <Events>
@@ -119,6 +125,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnDeleteSeletedItem">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Delete_1.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Delete Selected Item"/>
               </Properties>
               <Events>
@@ -328,6 +337,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Clear"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearTextActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblPhoto">
               <Properties>

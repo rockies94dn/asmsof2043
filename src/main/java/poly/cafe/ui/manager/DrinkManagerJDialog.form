@@ -79,11 +79,11 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="btnCheckAll" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnUncheckAll" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnCheckAll" min="-2" pref="127" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnDeleteCheckedItems" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnUncheckAll" min="-2" pref="138" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnDeleteCheckedItems" min="-2" pref="169" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -93,7 +93,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane2" pref="226" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="218" max="32767" attributes="0"/>
                           <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -198,6 +198,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnCheckAll">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Accept_1.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Select All"/>
               </Properties>
               <Events>
@@ -206,6 +209,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnUncheckAll">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Unaccept.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Select None"/>
               </Properties>
               <Events>
@@ -214,6 +220,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnDeleteCheckedItems">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Delete_1.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Delete Selected Item"/>
               </Properties>
               <Events>

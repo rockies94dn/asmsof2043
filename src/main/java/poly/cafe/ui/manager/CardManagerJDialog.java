@@ -276,6 +276,10 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
+        if (isDuplicateCardId()) {
+            XDialog.alert("This Card ID already exists.");
+            return;
+        }
         if (isValidInput()) {
             this.create();
         }
@@ -305,7 +309,7 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-         if (isValidInput()) {
+        if (isValidInput()) {
             this.update();
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -384,8 +388,18 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
     private javax.swing.JTextField txtCardId;
     // End of variables declaration//GEN-END:variables
 
-    CardDAO dao = new CardDAOImpl();
+    CardDAOImpl dao = new CardDAOImpl();
     List<Card> items = List.of();
+
+    public boolean isDuplicateCardId() {
+        List<Card> cardsList = dao.findAll();
+        for (Card card : cardsList) {
+            if (txtCardId.getText().equalsIgnoreCase(card.getId().toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public boolean isValidInput() {
         return !(XValidInput.isNumber(txtCardId.getText()) || (!rdbOperating.isSelected() && !rdbLose.isSelected() && !rdbError.isSelected()));
@@ -507,17 +521,36 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     @Override
     public void deleteCheckedItems() {
-        if (tblCardsList.getSelectedRow() != -1) {
-            if (XDialog.confirm("Do you want to delete selected items?")) {
-                for (int i = 0; i < tblCardsList.getRowCount(); i++) {
-                    if ((Boolean) tblCardsList.getValueAt(i, 2)) {
-                        dao.deleteById(items.get(i).getId());
-                    }
-                }
-                this.fillToTable();
+        boolean isSelected = false;
+        for (int i = 0; i < tblCardsList.getRowCount(); i++) {
+            Boolean value = (Boolean) tblCardsList.getValueAt(i, 2);
+            if (value != null && value) {
+                isSelected = true;
+                break;
             }
         }
-        XDialog.alert("Please select items that you want to delete");
+        if (!isSelected) {
+            XDialog.alert("Please select cards that you want to delete");
+            return;
+        }
+
+        if (tblCardsList.getSelectedRow() != -1) {
+            try {
+                if (XDialog.confirm("Do you want to delete selected items?")) {
+                    for (int i = 0; i < tblCardsList.getRowCount(); i++) {
+                        if ((Boolean) tblCardsList.getValueAt(i, 2)) {
+                            dao.deleteById(items.get(i).getId());
+                        }
+                    }
+                    this.fillToTable();
+                }
+            } catch (Exception e) {
+                if (e.toString().contains("The DELETE statement conflicted with the REFERENCE constraint")) {
+                    XDialog.alert("The cards are in use or already have payment history and can't be delete.");
+                }
+            }
+        }
+
     }
 
     @Override

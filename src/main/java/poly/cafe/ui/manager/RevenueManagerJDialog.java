@@ -161,6 +161,7 @@ public class RevenueManagerJDialog extends javax.swing.JDialog implements Revenu
             }
         });
 
+        btnFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Notes.png"))); // NOI18N
         btnFilter.setText("Filter");
         btnFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

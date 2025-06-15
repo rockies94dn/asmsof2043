@@ -28,4 +28,8 @@ public class XValidInput {
         return str.matches(datePattern);
     }
     
+    public static boolean isDuplicate(String inputStr, String dataStr) {
+        return !inputStr.equalsIgnoreCase(dataStr);
+    }
+    
 }
