@@ -43,7 +43,6 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         super(frame, modal);
         initComponents();
         txtId.setEditable(false);
-        txtUsername.setEditable(false);
     }
 
     /**

@@ -8,7 +8,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import poly.cafe.dao.CardDAO;
+import poly.cafe.dao.impl.BillDAOImpl;
 import poly.cafe.dao.impl.CardDAOImpl;
+import poly.cafe.entity.Bill;
 import poly.cafe.entity.Card;
 import poly.cafe.util.XDialog;
 import poly.cafe.util.XValidInput;
@@ -282,6 +284,9 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
         }
         if (isValidInput()) {
             this.create();
+            XDialog.message("Created successfully!");
+        } else {
+            XDialog.alert("Please enter complete and correctly formatted information.");
         }
     }//GEN-LAST:event_btnCreateActionPerformed
 
@@ -304,13 +309,27 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
+        if (isCardInUse() || isCardHasPaymentHistory()) {
+            XDialog.alert("This card is in use or already has payment history and can not be deleting!");
+            return;
+        }
         this.delete();
+        XDialog.message("Deleted successfully!");
+        this.clear();
+        this.fillToTable();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        if (isCardInUse()) {
+            XDialog.alert("Please completing the bill before updating card!");
+            return;
+        }
         if (isValidInput()) {
             this.update();
+            XDialog.message("Updated succesfully!");
+        } else {
+            XDialog.alert("Please enter complete and correctly formatted information.");
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -390,6 +409,22 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
 
     CardDAOImpl dao = new CardDAOImpl();
     List<Card> items = List.of();
+    List<Bill> billsList = List.of();
+    BillDAOImpl billDAO = new BillDAOImpl();
+
+    public boolean isCardInUse() {
+        return billDAO.hasActiveBill(Integer.valueOf(txtCardId.getText()));
+    }
+
+    public boolean isCardHasPaymentHistory() {
+        billsList = billDAO.findAllUsingCard();
+        for (Bill bill : billsList) {
+            if (Integer.valueOf(txtCardId.getText()) == bill.getCardId()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public boolean isDuplicateCardId() {
         List<Card> cardsList = dao.findAll();
@@ -402,7 +437,9 @@ public class CardManagerJDialog extends javax.swing.JDialog implements CardContr
     }
 
     public boolean isValidInput() {
-        return !(XValidInput.isNumber(txtCardId.getText()) || (!rdbOperating.isSelected() && !rdbLose.isSelected() && !rdbError.isSelected()));
+        boolean isCardIdValid = XValidInput.isNumber(txtCardId.getText());
+        boolean isStatusSelected = rdbOperating.isSelected() || rdbError.isSelected() || rdbLose.isSelected();
+        return isCardIdValid && isStatusSelected;
     }
 
     @Override
