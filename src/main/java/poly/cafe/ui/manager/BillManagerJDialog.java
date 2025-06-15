@@ -12,8 +12,10 @@ import poly.cafe.dao.BillDAO;
 import poly.cafe.dao.BillDetailDAO;
 import poly.cafe.dao.impl.BillDAOImpl;
 import poly.cafe.dao.impl.BillDetailDAOImpl;
+import poly.cafe.dao.impl.CardDAOImpl;
 import poly.cafe.entity.Bill;
 import poly.cafe.entity.BillDetail;
+import poly.cafe.entity.Card;
 import poly.cafe.util.TimeRange;
 import poly.cafe.util.XAuth;
 import poly.cafe.util.XDate;
@@ -31,6 +33,8 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     List<Bill> items = List.of(); // phiếu bán hàng
     BillDetailDAO billDetailDao = new BillDetailDAOImpl();
     List<BillDetail> details = List.of(); // chi tiết phiếu bán hàng
+    List<Card> cardsList = List.of();
+    CardDAOImpl cardDAO = new CardDAOImpl();
 
     /**
      * Creates new form BillJDialog
@@ -51,6 +55,20 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
 
         rdoGroupStatus = new javax.swing.ButtonGroup();
         tabs = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtBegin = new javax.swing.JTextField();
+        txtEnd = new javax.swing.JTextField();
+        btnFilter = new javax.swing.JButton();
+        cboTimeRanges = new javax.swing.JComboBox<>();
+        jSeparator3 = new javax.swing.JSeparator();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblBills = new javax.swing.JTable();
+        jSeparator4 = new javax.swing.JSeparator();
+        btnCheckAll = new javax.swing.JButton();
+        btnUncheckAll = new javax.swing.JButton();
+        btnDeleteCheckedItems = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblBillDetails = new javax.swing.JTable();
@@ -80,20 +98,6 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         btnMovePrevious = new javax.swing.JButton();
         btnMoveNext = new javax.swing.JButton();
         btnMoveLast = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        txtBegin = new javax.swing.JTextField();
-        txtEnd = new javax.swing.JTextField();
-        btnFilter = new javax.swing.JButton();
-        cboTimeRanges = new javax.swing.JComboBox<>();
-        jSeparator3 = new javax.swing.JSeparator();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblBills = new javax.swing.JTable();
-        jSeparator4 = new javax.swing.JSeparator();
-        btnCheckAll = new javax.swing.JButton();
-        btnUncheckAll = new javax.swing.JButton();
-        btnDeleteCheckedItems = new javax.swing.JButton();
 
         setTitle("Bill Manager");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -104,6 +108,140 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                 formWindowOpened(evt);
             }
         });
+
+        jLabel9.setText("Begin:");
+
+        jLabel10.setText("End:");
+
+        btnFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Notes.png"))); // NOI18N
+        btnFilter.setText("Filter");
+        btnFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFilterActionPerformed(evt);
+            }
+        });
+
+        cboTimeRanges.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Today", "This week", "This month", "This quarter", "This year" }));
+        cboTimeRanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTimeRangesActionPerformed(evt);
+            }
+        });
+
+        tblBills.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Bill ID", "Checkin", "Checkout", "Status", "Username", "Selected"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblBills.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBillsMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblBills);
+
+        btnCheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Accept_1.png"))); // NOI18N
+        btnCheckAll.setText("Select All");
+        btnCheckAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckAllActionPerformed(evt);
+            }
+        });
+
+        btnUncheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Unaccept.png"))); // NOI18N
+        btnUncheckAll.setText("Select None");
+        btnUncheckAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUncheckAllActionPerformed(evt);
+            }
+        });
+
+        btnDeleteCheckedItems.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
+        btnDeleteCheckedItems.setText("Delete Selected Item");
+        btnDeleteCheckedItems.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteCheckedItemsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator3))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator4)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 357, Short.MAX_VALUE)
+                        .addComponent(btnCheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUncheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDeleteCheckedItems, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(122, 122, 122)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtBegin, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnFilter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cboTimeRanges, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(13, 13, 13)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(txtBegin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFilter)
+                    .addComponent(cboTimeRanges, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCheckAll)
+                    .addComponent(btnUncheckAll)
+                    .addComponent(btnDeleteCheckedItems))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tabs.addTab("Bills List", jPanel1);
 
         tblBillDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -326,140 +464,6 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
 
         tabs.addTab("Form", jPanel2);
 
-        jLabel9.setText("Begin:");
-
-        jLabel10.setText("End:");
-
-        btnFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Notes.png"))); // NOI18N
-        btnFilter.setText("Filter");
-        btnFilter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFilterActionPerformed(evt);
-            }
-        });
-
-        cboTimeRanges.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Today", "This week", "This month", "This quarter", "This year" }));
-        cboTimeRanges.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboTimeRangesActionPerformed(evt);
-            }
-        });
-
-        tblBills.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Bill ID", "Checkin", "Checkout", "Status", "Username", "Selected"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblBills.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblBillsMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tblBills);
-
-        btnCheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Accept_1.png"))); // NOI18N
-        btnCheckAll.setText("Select All");
-        btnCheckAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCheckAllActionPerformed(evt);
-            }
-        });
-
-        btnUncheckAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Unaccept.png"))); // NOI18N
-        btnUncheckAll.setText("Select None");
-        btnUncheckAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUncheckAllActionPerformed(evt);
-            }
-        });
-
-        btnDeleteCheckedItems.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Delete_1.png"))); // NOI18N
-        btnDeleteCheckedItems.setText("Delete Selected Item");
-        btnDeleteCheckedItems.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteCheckedItemsActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jSeparator3))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator4)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 357, Short.MAX_VALUE)
-                        .addComponent(btnCheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnUncheckAll, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDeleteCheckedItems, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(122, 122, 122)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtBegin, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnFilter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cboTimeRanges, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(txtBegin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFilter)
-                    .addComponent(cboTimeRanges, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCheckAll)
-                    .addComponent(btnUncheckAll)
-                    .addComponent(btnDeleteCheckedItems))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        tabs.addTab("Bills List", jPanel1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -480,42 +484,25 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCheckAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckAllActionPerformed
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        this.setCheckedAll(true);
-    }//GEN-LAST:event_btnCheckAllActionPerformed
+        this.open();
+    }//GEN-LAST:event_formWindowOpened
 
-    private void btnUncheckAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUncheckAllActionPerformed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
-        this.setCheckedAll(false);
-    }//GEN-LAST:event_btnUncheckAllActionPerformed
+        this.close();
+    }//GEN-LAST:event_formWindowClosed
 
-    private void btnDeleteCheckedItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCheckedItemsActionPerformed
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
-        this.deleteCheckedItems();
-    }//GEN-LAST:event_btnDeleteCheckedItemsActionPerformed
+        this.clear();
+    }//GEN-LAST:event_btnClearActionPerformed
 
-    private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        if (isValidDateFormat()) {
-            this.fillToTable();
-        } else {
-            XDialog.alert("Invalid date format. Please try again.");
-        }
-    }//GEN-LAST:event_btnFilterActionPerformed
-
-    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
-        if (isCardInUse()) {
-            XDialog.alert("The card is already using, please choose another one.");
-            return;
-        }
-        if (isValidInput()) {
-            this.create();
-        } else {
-            XDialog.alert("Please enter complete and correctly formatted information.");
-        }
-    }//GEN-LAST:event_btnCreateActionPerformed
+        this.delete();
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
@@ -526,15 +513,47 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        this.delete();
-    }//GEN-LAST:event_btnDeleteActionPerformed
+        if (!isCardExist()) {
+            XDialog.alert("This card doesn't exist, please choose another one.");
+            return;
+        }
+        if (isCardInUse()) {
+            XDialog.alert("This card is already using, please choose another one.");
+            return;
+        }
+        if (isValidInput()) {
+            this.create();
+        } else {
+            XDialog.alert("Please enter complete and correctly formatted information.");
+        }
+    }//GEN-LAST:event_btnCreateActionPerformed
 
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+    private void btnDeleteCheckedItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCheckedItemsActionPerformed
         // TODO add your handling code here:
-        this.clear();
-    }//GEN-LAST:event_btnClearActionPerformed
+        this.deleteCheckedItems();
+    }//GEN-LAST:event_btnDeleteCheckedItemsActionPerformed
+
+    private void btnUncheckAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUncheckAllActionPerformed
+        // TODO add your handling code here:
+        this.setCheckedAll(false);
+    }//GEN-LAST:event_btnUncheckAllActionPerformed
+
+    private void btnCheckAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckAllActionPerformed
+        // TODO add your handling code here:
+        this.setCheckedAll(true);
+    }//GEN-LAST:event_btnCheckAllActionPerformed
+
+    private void tblBillsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBillsMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            System.out.println(tblBills.getSelectedRow());
+            this.edit();
+            tabs.setSelectedIndex(1);
+            this.fillBillDetails();
+        }
+    }//GEN-LAST:event_tblBillsMouseClicked
 
     private void cboTimeRangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTimeRangesActionPerformed
         // TODO add your handling code here:
@@ -555,24 +574,14 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         txtEnd.setText(XDate.format(range.getEnd(), "MM/dd/yyyy"));
     }//GEN-LAST:event_cboTimeRangesActionPerformed
 
-    private void tblBillsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBillsMouseClicked
+    private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
-            System.out.println(tblBills.getSelectedRow());
-            this.edit();
-            this.fillBillDetails();
+        if (isValidDateFormat()) {
+            this.fillToTable();
+        } else {
+            XDialog.alert("Invalid date format. Please try again.");
         }
-    }//GEN-LAST:event_tblBillsMouseClicked
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
-        this.open();
-    }//GEN-LAST:event_formWindowOpened
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        // TODO add your handling code here:
-        this.close();
-    }//GEN-LAST:event_formWindowClosed
+    }//GEN-LAST:event_btnFilterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -658,6 +667,16 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
+    public boolean isCardExist() {
+        cardsList = cardDAO.findAll();
+        for (Card card : cardsList) {
+            if (Integer.parseInt(txtCardNumber.getText()) == card.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public boolean isCardInUse() {
         List<Bill> billsList = dao.findAllUsingCard();
         for (Bill bill : billsList) {
@@ -671,20 +690,20 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
     public boolean isValidDateFormat() {
         return XValidInput.isDateFormat(txtBegin.getText()) && XValidInput.isDateFormat(txtEnd.getText());
     }
-
+    
     public boolean isValidInput() {
         if (!XValidInput.isNumber(txtId.getText())) {
             return false;
         }
-
+        
         if (!XValidInput.isNumber(txtCardNumber.getText())) {
             return false;
         }
-
+        
         if (XValidInput.isBlank(txtCheckin.getText())) {
             return false;
         }
-
+        
         if (XValidInput.isBlank(txtUsername.getText())) {
             return false;
         }
@@ -693,7 +712,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
 
         return rdoServicing.isSelected() || rdoCompleted.isSelected();
     }
-
+    
     @Override
     public void open() {
         this.setLocationRelativeTo(null);
@@ -701,7 +720,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         this.fillToTable();
         this.clear();
     }
-
+    
     public int getStatusFromForm() {
         if (rdoServicing.isSelected()) {
             return 0;
@@ -711,7 +730,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             return 2;
         }
     }
-
+    
     @Override
     public void fillToTable() {
         DefaultTableModel model = (DefaultTableModel) tblBills.getModel();
@@ -730,7 +749,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
                 false});
         });
     }
-
+    
     @Override
     public void edit() {
         Bill entity = items.get(tblBills.getSelectedRow());
@@ -738,7 +757,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         this.setEditable(true);
         tabs.setSelectedIndex(1);
     }
-
+    
     @Override
     public void create() {
         Bill entity = this.getForm();
@@ -748,14 +767,14 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             this.clear();
         }
     }
-
+    
     @Override
     public void update() {
         Bill entity = this.getForm();
         dao.update(entity);
         this.fillToTable();
     }
-
+    
     @Override
     public void delete() {
         if (XDialog.confirm("Do you want to remove?")) {
@@ -765,13 +784,14 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             this.clear();
         }
     }
-
+    
     @Override
     public void clear() {
         this.setForm(new Bill());
+        txtId.setText(String.valueOf(dao.getNextBillId()));
         this.setEditable(false);
     }
-
+    
     @Override
     public void setEditable(boolean editable) {
         txtId.setEnabled(!editable);
@@ -784,23 +804,23 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         btnMoveNext.setEnabled(editable && rowCount > 0);
         btnMoveLast.setEnabled(editable && rowCount > 0);
     }
-
+    
     private void setCheckedAll(boolean checked) {
         for (int i = 0; i < tblBills.getRowCount(); i++) {
             tblBills.setValueAt(checked, i, 6);
         }
     }
-
+    
     @Override
     public void checkAll() {
         this.setCheckedAll(true);
     }
-
+    
     @Override
     public void uncheckAll() {
         this.setCheckedAll(false);
     }
-
+    
     @Override
     public void deleteCheckedItems() {
         boolean isSelected = false;
@@ -824,27 +844,27 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             this.fillToTable();
         }
     }
-
+    
     @Override
     public void moveFirst() {
         this.moveTo(0);
     }
-
+    
     @Override
     public void movePrevious() {
         this.moveTo(tblBills.getSelectedRow() - 1);
     }
-
+    
     @Override
     public void moveNext() {
         this.moveTo(tblBills.getSelectedRow() + 1);
     }
-
+    
     @Override
     public void moveLast() {
         this.moveTo(tblBills.getRowCount() - 1);
     }
-
+    
     @Override
     public void moveTo(int rowIndex) {
         if (rowIndex < 0) {
@@ -857,7 +877,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
             this.edit();
         }
     }
-
+    
     @Override
     public void fillBillDetails() {
         DefaultTableModel model = (DefaultTableModel) tblBillDetails.getModel();
@@ -880,7 +900,7 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         });
         System.out.println("Số lượng chi tiết hóa đơn: " + details.size());
     }
-
+    
     @Override
     public void selectTimeRange() {
         TimeRange range = TimeRange.today();
@@ -899,19 +919,19 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         txtBegin.setText(XDate.format(range.getBegin(), "MM/dd/yyyy"));
         txtEnd.setText(XDate.format(range.getEnd(), "MM/dd/yyyy"));
     }
-
+    
     @Override
     public void setForm(Bill entity) {
-        txtId.setText(String.valueOf(dao.getNextBillId()));
-        txtCardNumber.setText("");
+        txtId.setText(String.valueOf(entity.getId()));
+        txtCardNumber.setText(String.valueOf(entity.getCardId()));
         txtCheckin.setText(entity.getCheckin() == null ? "" : XDate.formatFull(entity.getCheckin()));
         txtCheckout.setText(entity.getCheckout() == null ? "" : XDate.formatFull(entity.getCheckout()));
-        txtUsername.setText(XAuth.user.getUsername());
+        txtUsername.setText(entity.getUsername());
         rdoServicing.setSelected(entity.getStatus() == 0);
         rdoCompleted.setSelected(entity.getStatus() == 1);
         rdoCanceled.setSelected(entity.getStatus() == 2);
     }
-
+    
     @Override
     public Bill getForm() {
         Bill entity = new Bill();
@@ -923,36 +943,36 @@ public class BillManagerJDialog extends javax.swing.JDialog implements BillContr
         entity.setStatus(getStatusFromForm());
         return entity;
     }
-
+    
     @Override
     public void setBill(Bill bill) {
-
+        
     }
-
+    
     @Override
     public void close() {
     }
-
+    
     @Override
     public void showDrinkJDialog() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public void removeDrinks() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public void updateQuantity() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public void checkout() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public void cancel() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
